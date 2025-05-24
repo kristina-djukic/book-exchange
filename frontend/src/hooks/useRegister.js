@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 export const useRegister = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+
+  const navigate = useNavigate();
 
   const createUser = async ({ name, surname, username, email, password }) => {
     setLoading(true);
@@ -23,6 +26,7 @@ export const useRegister = () => {
 
       setSuccess(true);
       toast.success("Success message!");
+      navigate('/login')
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
       toast.error("Registration failed.");

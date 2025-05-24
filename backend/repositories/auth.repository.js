@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const hashPassword = require("../functions/hashPassword");
 
 const registerQuery = `
       INSERT INTO user
@@ -12,7 +13,7 @@ const loginQuery = `
     `;
 
 const createUser = async (username, name, surname, email, password) => {
-  db.query(registerQuery, [username, name, surname, email, password]);
+  db.query(registerQuery, [username, name, surname, email, await hashPassword(password)]);
 };
 const loginUser = async (email, password) => {
   db.query(loginQuery, [email, password], (err, result) => {

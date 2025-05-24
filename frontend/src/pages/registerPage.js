@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useRegister } from "../hooks/useRegister";
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +21,6 @@ const RegisterPage = () => {
     };
     try {
       createUser(userData);
-      toast.success('Success message!');
       if (success&& !loading) {
         
        
@@ -37,7 +32,6 @@ const RegisterPage = () => {
 
   return (
     <div className="register-page">
-      <ToastContainer position="top-right" autoClose={3000} />
       <h2>Register</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={HandleSubmit}>
