@@ -10,16 +10,17 @@ app.use(express.json());
 app.use(cors());
 
 app.post("/register", (req, res) => {
-    const { username, name, surname, email, password} = req.body;
+  const { username, name, surname, email, password } = req.body;
 
-    register(username, name, surname, email, password)
-    
-       
-})
+  register(username, name, surname, email, password);
+});
 
 app.post("/login", (req, res) => {
-    const {email, password} = req.body;
+  const { email, password } = req.body;
 
-    login(email, password)
+  login(email, password);
+});
 
-})
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});

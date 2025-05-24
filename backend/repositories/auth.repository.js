@@ -14,7 +14,6 @@ const loginQuery = `
 const createUser = async (username, name, surname, email, password) => {
     db.query(registerQuery, [username, name, surname, email, password], (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
-      res.json({ username: result.username });
     });
   }
 const loginUser = async (email, password) => {
