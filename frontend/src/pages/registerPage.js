@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRegister } from "../hooks/useRegister";
-
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +12,7 @@ const RegisterPage = () => {
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
-  const {createUser} = useRegister();
+  const {createUser, success, loading} = useRegister();
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +25,11 @@ const RegisterPage = () => {
     };
     try {
       createUser(userData);
+      toast.success('Success message!');
+      if (success&& !loading) {
+        
+       
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     }
@@ -30,6 +37,7 @@ const RegisterPage = () => {
 
   return (
     <div className="register-page">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h2>Register</h2>
       {error && <p className="error">{error}</p>}
       <form onSubmit={HandleSubmit}>

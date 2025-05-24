@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const useRegister = () => {
   const [loading, setLoading] = useState(false);
@@ -12,13 +13,6 @@ export const useRegister = () => {
     setSuccess(false);
 
     try {
-        console.log("Creating user with data:", {
-          name,
-          surname,
-          username,
-          email,
-          password,
-        });
       await axios.post("http://localhost:5000/register", {
         name,
         surname,
@@ -26,9 +20,12 @@ export const useRegister = () => {
         email,
         password,
       });
+
       setSuccess(true);
+      toast.success("Success message!");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
+      toast.error("Registration failed.");
     } finally {
       setLoading(false);
     }
