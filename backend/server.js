@@ -13,6 +13,7 @@ app.post("/register", (req, res) => {
     const { username, name, surname, email, password} = req.body;
 
     register(username, name, surname, email, password)
+    
        
 })
 

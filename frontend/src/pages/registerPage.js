@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRegister } from "../hooks/useRegister";
+
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -8,13 +10,19 @@ const RegisterPage = () => {
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
+  const {createUser} = useRegister();
 
-  const nav = useNavigate();
-
-  const handleSubmit = async (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
+    const userData = {
+      name,
+      surname,
+      username,
+      email,
+      password,
+    };
     try {
-      nav("/dashboard");
+      createUser(userData);
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     }
@@ -24,7 +32,7 @@ const RegisterPage = () => {
     <div className="register-page">
       <h2>Register</h2>
       {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={HandleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name:</label>
           <input

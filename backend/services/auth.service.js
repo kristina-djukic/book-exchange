@@ -1,4 +1,3 @@
-const { use } = require("react")
 const { createUser, loginUser } = require("../repositories/auth.repository")
 
 const register = async (username, name, surname, email, password) => {
