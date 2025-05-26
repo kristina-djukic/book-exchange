@@ -7,11 +7,6 @@ const registerQuery = `
       VALUES (?, ?, ?, ?, ?)
     `;
 
-const loginQuery = `
-      SELECT * FROM user
-      WHERE email = ? AND password = ? 
-    `;
-
 const userEmailQuery = `
   SELECT id, username, name, surname, email, password
   FROM user
@@ -27,19 +22,6 @@ const createUser = async (username, name, surname, email, password) => {
     await hashPassword(password),
   ]);
 };
-const loginUser = async (email, hashedPassword) => {
-  return new Promise((resolve, reject) => {
-    db.query(loginQuery, [email, hashedPassword], (err, result) => {
-      if (err) {
-        return reject(err);
-      }
-      if (result.length === 0) {
-        return resolve(null); // No user found
-      }
-      resolve(result[0]); // Return the user object
-    });
-  });
-};
 
 const getUserByEmail = async (email) => {
   return new Promise((resolve, reject) => {
@@ -48,9 +30,9 @@ const getUserByEmail = async (email) => {
         return reject(err);
       }
       if (result.length === 0) {
-        return resolve(null); // No user found
+        return resolve(null);
       }
-      resolve(result[0]); // Return the user object
+      resolve(result[0]);
     });
   });
 };
@@ -80,7 +62,6 @@ const userCheckEmail = (email) => {
 };
 module.exports = {
   createUser,
-  loginUser,
   userCheckEmail,
   userCheckUsername,
   getUserByEmail,
