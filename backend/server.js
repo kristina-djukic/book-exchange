@@ -28,10 +28,16 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
-  login(email, password);
+  try {
+    const user = await login(email, password);
+    res.status(200).json({ message: "Login successful", user });
+  } catch (error) {
+    if (error.message === "INVALID_CREDENTIALS") {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+  }
 });
 
 app.listen(port, () => {

@@ -1,8 +1,11 @@
+const checkPassword = require("../functions/checkPassword");
+const hashPassword = require("../functions/hashPassword");
 const {
   createUser,
   loginUser,
   userCheckEmail,
   userCheckUsername,
+  getUserByEmail,
 } = require("../repositories/auth.repository");
 
 const register = async (username, name, surname, email, password) => {
@@ -19,7 +22,12 @@ const register = async (username, name, surname, email, password) => {
 };
 
 const login = async (email, password) => {
-  loginUser(email, password);
+  const user = await getUserByEmail(email);
+  if (await checkPassword(password, user.password)) {
+    return user;
+  } else {
+    throw new Error("INVALID_CREDENTIALS");
+  }
 };
 
 module.exports = {

@@ -12,6 +12,12 @@ const loginQuery = `
       WHERE email = ? AND password = ? 
     `;
 
+const userEmailQuery = `
+  SELECT id, username, name, surname, email, password
+  FROM user
+  WHERE email = ?
+`;
+
 const createUser = async (username, name, surname, email, password) => {
   db.query(registerQuery, [
     username,
@@ -21,12 +27,31 @@ const createUser = async (username, name, surname, email, password) => {
     await hashPassword(password),
   ]);
 };
-const loginUser = async (email, password) => {
-  db.query(loginQuery, [email, password], (err, result) => {
-    if (err) return res.status(500).json({ error: err.message });
-    if (result.length === 0)
-      return res.status(401).json({ error: "Invalid credentials" });
-    res.json({ user: result[0] });
+const loginUser = async (email, hashedPassword) => {
+  return new Promise((resolve, reject) => {
+    db.query(loginQuery, [email, hashedPassword], (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+      if (result.length === 0) {
+        return resolve(null); // No user found
+      }
+      resolve(result[0]); // Return the user object
+    });
+  });
+};
+
+const getUserByEmail = async (email) => {
+  return new Promise((resolve, reject) => {
+    db.query(userEmailQuery, [email], (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+      if (result.length === 0) {
+        return resolve(null); // No user found
+      }
+      resolve(result[0]); // Return the user object
+    });
   });
 };
 
@@ -58,4 +83,5 @@ module.exports = {
   loginUser,
   userCheckEmail,
   userCheckUsername,
+  getUserByEmail,
 };

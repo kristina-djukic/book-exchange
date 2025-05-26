@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const nav = useNavigate();
+  const { loginUser, success, loading } = useLogin();
 
-  const handleSubmit = async e => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
+    const userData = {
+      email,
+      password,
+    };
     try {
-      nav('/dashboard');
+      loginUser(userData);
+      if (success && !loading) {
+      }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-
     <div className="login-page">
       <h2>Login</h2>
       {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={HandleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -40,15 +45,16 @@ const LoginPage = () => {
             type="password"
             id="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
         <button type="submit">Login</button>
       </form>
-      <p>Don't have an account? <a href="/register">Register here</a></p>
-      </div>
-    
+      <p>
+        Don't have an account? <a href="/register">Register here</a>
+      </p>
+    </div>
   );
 };
 
