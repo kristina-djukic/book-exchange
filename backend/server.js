@@ -1,13 +1,21 @@
 const express = require("express");
 const app = express();
-const db = require("./config/db");
 const port = 5000;
 const cors = require("cors");
 const { register } = require("./services/auth.service");
 const { login } = require("./services/auth.service");
+const session = require("express-session");
 
 app.use(express.json());
 app.use(cors());
+
+app.use(
+  session({
+    secret: "kristinaskey",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.post("/register", async (req, res) => {
   const { username, name, surname, email, password } = req.body;
@@ -32,6 +40,7 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await login(email, password);
+    req.session.userId = user.id;
     res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     if (error.message === "INVALID_CREDENTIALS") {
