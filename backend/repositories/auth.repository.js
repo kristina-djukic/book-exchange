@@ -13,7 +13,13 @@ const loginQuery = `
     `;
 
 const createUser = async (username, name, surname, email, password) => {
-  db.query(registerQuery, [username, name, surname, email, await hashPassword(password)]);
+  db.query(registerQuery, [
+    username,
+    name,
+    surname,
+    email,
+    await hashPassword(password),
+  ]);
 };
 const loginUser = async (email, password) => {
   db.query(loginQuery, [email, password], (err, result) => {
@@ -24,7 +30,32 @@ const loginUser = async (email, password) => {
   });
 };
 
+const userCheckUsername = async (username) => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT 1 FROM user WHERE username = ?`;
+    db.query(query, [username], (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(result.length > 0);
+    });
+  });
+};
+
+const userCheckEmail = (email) => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT 1 FROM user WHERE email = ?`;
+    db.query(query, [email], (err, result) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(result.length > 0);
+    });
+  });
+};
 module.exports = {
   createUser,
   loginUser,
+  userCheckEmail,
+  userCheckUsername,
 };

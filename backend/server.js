@@ -16,7 +16,15 @@ app.post("/register", async (req, res) => {
     const user = await register(username, name, surname, email, password);
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
-    res.status(400).json({ message: "Registration failed", error: error.message });
+    if (error.message === "EMAIL_ALREADY_EXISTS") {
+      return res.status(409).json({ message: "Email already exists" });
+    }
+    if (error.message === "USERNAME_ALREADY_EXISTS") {
+      return res.status(409).json({ message: "Username already exists" });
+    }
+    res
+      .status(400)
+      .json({ message: "Registration failed", error: error.message });
   }
 });
 
