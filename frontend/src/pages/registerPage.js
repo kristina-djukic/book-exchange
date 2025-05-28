@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRegister } from "../hooks/useRegister";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -8,10 +9,23 @@ const RegisterPage = () => {
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
-  const {createUser, success, loading} = useRegister();
+  const { createUser, success, loading } = useRegister();
+  const navigate = useNavigate();
 
   const HandleSubmit = async (e) => {
     e.preventDefault();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+
     const userData = {
       name,
       surname,
@@ -21,9 +35,7 @@ const RegisterPage = () => {
     };
     try {
       createUser(userData);
-      if (success&& !loading) {
-        
-       
+      if (success && !loading) {
       }
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
@@ -88,7 +100,17 @@ const RegisterPage = () => {
         <button type="submit">Register</button>
       </form>
       <p>
-        Already have an account? <a href="/login">Log in</a>
+        Already have an account?{" "}
+        <span
+          style={{
+            color: "blue",
+            textDecoration: "underline",
+            cursor: "pointer",
+          }}
+          onClick={() => navigate("/login")}
+        >
+          Log in
+        </span>
       </p>
     </div>
   );

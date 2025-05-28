@@ -6,7 +6,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const nav = useNavigate();
+  const navigate = useNavigate();
   const { loginUser, success, loading } = useLogin();
 
   const HandleSubmit = async (e) => {
@@ -52,7 +52,17 @@ const LoginPage = () => {
         <button type="submit">Login</button>
       </form>
       <p>
-        Don't have an account? <a href="/register">Register here</a>
+        Don't have an account?{" "}
+        <span
+          style={{
+            color: "blue",
+            textDecoration: "underline",
+            cursor: "pointer",
+          }}
+          onClick={() => navigate("/register")}
+        >
+          Register here
+        </span>
       </p>
     </div>
   );
