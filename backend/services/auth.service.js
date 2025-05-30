@@ -1,8 +1,7 @@
 const checkPassword = require("../functions/checkPassword");
-const hashPassword = require("../functions/hashPassword");
+
 const {
   createUser,
-  loginUser,
   userCheckEmail,
   userCheckUsername,
   getUserByEmail,
