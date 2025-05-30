@@ -19,7 +19,7 @@ const AddBook = () => {
       </div>
 
       <button className="btn btn-success" type="submit">
-        Post Book
+        Save Book
       </button>
     </form>
   );
