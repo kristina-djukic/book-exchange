@@ -1,19 +1,9 @@
-// src/hooks/useBooks.js
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 const useBooks = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState("");
-
-  const fetchBooks = async () => {
-    try {
-      const res = await axios.get("/books");
-      setBooks(res.data);
-    } catch (err) {
-      setError("Failed to load books");
-    }
-  };
 
   const addBook = async (bookData) => {
     try {
@@ -27,7 +17,6 @@ const useBooks = () => {
   return {
     books,
     error,
-    fetchBooks,
     addBook,
   };
 };
