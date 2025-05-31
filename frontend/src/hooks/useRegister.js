@@ -16,7 +16,7 @@ export const useRegister = () => {
     setSuccess(false);
 
     try {
-      await axios.post("/register", {
+      await axios.post("/auth/register", {
         name,
         surname,
         username,

@@ -16,7 +16,7 @@ export const useLogin = () => {
     setSuccess(false);
 
     try {
-      await axios.post("/login", {
+      await axios.post("/auth/login", {
         email,
         password,
       });
