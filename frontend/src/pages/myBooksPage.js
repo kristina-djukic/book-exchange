@@ -1,9 +1,15 @@
-import React from "react";
-import AddBook from "../components/addBook";
-import { useState } from "react";
+import React, { useState } from "react";
+import AddBook from "../components/AddBook";
+import useBooks from "../hooks/useBooks";
 
 const MyBooksPage = () => {
   const [showForm, setShowForm] = useState(false);
+  const { books, fetchBooks, addBook, error } = useBooks();
+
+  const handleAddBook = (bookData) => {
+    addBook(bookData);
+    setShowForm(false);
+  };
 
   return (
     <div className="container mt-4">
@@ -15,7 +21,9 @@ const MyBooksPage = () => {
         {showForm ? "Cancel" : "Add a New Book"}
       </button>
 
-      {showForm && <AddBook />}
+      {showForm && <AddBook onAdd={handleAddBook} />}
+
+      {error && <p className="text-danger">{error}</p>}
 
       <h4>Your Posted Books</h4>
       <div className="row">
