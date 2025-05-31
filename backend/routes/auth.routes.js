@@ -1,3 +1,4 @@
-import express from "express";
-import { register, login } from "../services/auth.service.js";
-import { Router } from "express";
+const express = require("express");
+const router = express.Router();
+const { register } = require("../services/auth.service");
+const { login } = require("../services/auth.service");
