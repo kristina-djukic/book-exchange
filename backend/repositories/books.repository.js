@@ -1,4 +1,4 @@
-const db = require("../config/db.config");
+const db = require("../config/db");
 
 const createBookQuery = `
   INSERT INTO Books (title, author, description, availability_time, user_id)

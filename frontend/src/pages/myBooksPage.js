@@ -4,7 +4,7 @@ import useBooks from "../hooks/useBooks";
 
 const MyBooksPage = () => {
   const [showForm, setShowForm] = useState(false);
-  const { books, fetchBooks, addBook, error } = useBooks();
+  const { addBook, error } = useBooks();
 
   const handleAddBook = (bookData) => {
     addBook(bookData);

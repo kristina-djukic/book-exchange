@@ -7,7 +7,9 @@ const useBooks = () => {
 
   const addBook = async (bookData) => {
     try {
-      const res = await axios.post("/books/postBook", bookData);
+      const res = await axios.post("/books/postBook", bookData, {
+        withCredentials: true,
+      });
       setBooks((prev) => [...prev, res.data.book]);
     } catch (err) {
       setError("Failed to add book");
