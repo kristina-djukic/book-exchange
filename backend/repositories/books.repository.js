@@ -16,3 +16,6 @@ const createBook = (title, author, description, availability_time, user_id) => {
     );
   });
 };
+module.exports = {
+  createBook,
+};
