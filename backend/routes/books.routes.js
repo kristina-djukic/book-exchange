@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const bookService = require("../services/books.service");
-const e = require("express");
 
 router.post("/postBook", async (req, res) => {
   try {
