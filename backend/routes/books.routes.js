@@ -40,6 +40,9 @@ router.get("/userBooks", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
     const { title, author, description, availability_time } = req.body;
     const success = await bookService.updateBook(
       req.params.id,
@@ -59,6 +62,9 @@ router.put("/:id", async (req, res) => {
 
 router.put("/:id/updateAvailability", async (req, res) => {
   try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
     const success = await bookService.updateAvailability(req.params.id);
     if (!success) return res.status(404).json({ message: "Book not found" });
     res.json({ message: "Availability updated" });
@@ -71,6 +77,9 @@ router.put("/:id/updateAvailability", async (req, res) => {
 
 router.delete("/:id/deleteBook", async (req, res) => {
   try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
     const success = await bookService.deleteBook(req.params.id);
     if (!success) return res.status(404).json({ message: "Book not found" });
     res.json({ message: "Book deleted", id: req.params.id });
