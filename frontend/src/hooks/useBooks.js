@@ -62,7 +62,7 @@ const useBooks = () => {
       await axios.delete(`/books/${id}/deleteBook`, {
         withCredentials: true,
       });
-      setBooks((prev) => prev.filter((book) => book.id !== id));
+      setBooks((prev) => prev.filter((book) => book.id != id));
     } catch (err) {
       setError("Failed to delete book");
     }
