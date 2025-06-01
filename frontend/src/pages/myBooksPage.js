@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddBook from "../components/addBook";
 import useBooks from "../hooks/useBooks";
 
@@ -10,6 +10,10 @@ const MyBooksPage = () => {
     addBook(bookData);
     setShowForm(false);
   };
+
+  useEffect(() => {
+    fetchUserBooks();
+  }, []);
 
   return (
     <div className="container mt-4">
@@ -27,22 +31,27 @@ const MyBooksPage = () => {
 
       <h4>Your Posted Books</h4>
       <div className="row">
-        <div className="col-md-6 mb-3">
-          <div className="card h-100">
-            <div className="card-body">
-              <h5>Book Title</h5>
-              <h6 className="text-muted">Author Name</h6>
-              <p>Short description...</p>
-              <p>
-                Status: <span className="text-success">Available</span>
-              </p>
-              <button className="btn btn-outline-warning me-2">
-                Mark Unavailable
-              </button>
-              <button className="btn btn-outline-danger">Delete</button>
+        {books.map((book) => (
+          <div className="col-md-6 mb-3" key={book.id}>
+            <div className="card h-100">
+              <div className="card-body">
+                <h5>{book.title}</h5>
+                <h6 className="text-muted">{book.author}</h6>
+                <p>{book.description}</p>
+                <p>
+                  Status: <span className="text-success">Available</span>
+                </p>
+                <button className="btn btn-outline-warning me-2">
+                  Mark Unavailable
+                </button>
+                <button className="btn btn-outline-danger">Delete</button>
+              </div>
             </div>
           </div>
-        </div>
+        ))}
+        {books.length === 0 && (
+          <p className="text-muted">You haven't posted any books yet.</p>
+        )}
       </div>
     </div>
   );
