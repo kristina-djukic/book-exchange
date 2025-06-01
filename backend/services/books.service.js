@@ -44,8 +44,13 @@ const updateBook = async (
   );
 };
 
+const changeAvailability = async (id) => {
+  return repo.changeAvailability(id);
+};
+
 module.exports = {
   createBook,
   getBooksByUserId,
   updateBook,
+  changeAvailability,
 };
