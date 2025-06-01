@@ -17,6 +17,8 @@ const updateAvailabilityQuery = `
   WHERE id = ?
 `;
 
+const deleteBookQuery = `DELETE FROM Books WHERE id = ?`;
+
 const createBook = (title, author, description, availability_time, user_id) => {
   return new Promise((resolve, reject) => {
     db.query(
@@ -55,6 +57,15 @@ const updateBook = (id, title, author, description, availability_time) => {
 const updateAvailability = (id) => {
   return new Promise((resolve, reject) => {
     db.query(updateAvailabilityQuery, [id], (err, results) => {
+      if (err) return reject(err);
+      resolve(results.affectedRows > 0);
+    });
+  });
+};
+
+const deleteBook = (id) => {
+  return new Promise((resolve, reject) => {
+    db.query(deleteBookQuery, [id], (err, results) => {
       if (err) return reject(err);
       resolve(results.affectedRows > 0);
     });
