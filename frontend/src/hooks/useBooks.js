@@ -27,11 +27,27 @@ const useBooks = () => {
     }
   };
 
+  const updateBook = async (id, updatedData) => {
+    try {
+      const res = await axios.put(`/books/${id}`, updatedData, {
+        withCredentials: true,
+      });
+      setBooks((prev) =>
+        prev.map((book) =>
+          book.id === id ? { ...book, ...updatedData } : book
+        )
+      );
+    } catch (err) {
+      setError("Failed to update book");
+    }
+  };
+
   return {
     books,
     error,
     addBook,
     fetchUserBooks,
+    updateBook,
   };
 };
 
