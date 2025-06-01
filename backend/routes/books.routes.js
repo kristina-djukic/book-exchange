@@ -38,4 +38,23 @@ router.get("/userBooks", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const { title, author, description, availability_time } = req.body;
+    const success = await bookService.updateBook(
+      req.params.id,
+      title,
+      author,
+      description,
+      availability_time
+    );
+    if (!success) return res.status(404).json({ message: "Book not found" });
+    res.json({ message: "Book updated" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to update book", error: error.message });
+  }
+});
+
 module.exports = router;
