@@ -28,7 +28,24 @@ const getBooksByUserId = async (user_id) => {
   return await repo.getBooksByUserId(user_id);
 };
 
+const updateBook = async (
+  id,
+  title,
+  author,
+  description,
+  availability_time
+) => {
+  return await repo.updateBook(
+    id,
+    title,
+    author,
+    description,
+    availability_time
+  );
+};
+
 module.exports = {
   createBook,
   getBooksByUserId,
+  updateBook,
 };
