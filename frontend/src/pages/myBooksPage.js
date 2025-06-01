@@ -4,11 +4,39 @@ import useBooks from "../hooks/useBooks";
 
 const MyBooksPage = () => {
   const [showForm, setShowForm] = useState(false);
-  const { addBook, fetchUserBooks, books, error } = useBooks();
+  const { addBook, fetchUserBooks, books, updateBook, error } = useBooks();
+  const [editBookId, setEditBookId] = useState(null);
+  const [editData, setEditData] = useState({
+    title: "",
+    author: "",
+    description: "",
+  });
 
   const handleAddBook = (bookData) => {
     addBook(bookData);
     setShowForm(false);
+  };
+
+  const handleEditClick = (book) => {
+    setEditBookId(book.id);
+
+    setEditData({
+      title: book.title,
+
+      author: book.author,
+
+      description: book.description || "",
+    });
+  };
+
+  const handleEditChange = (e) => {
+    setEditData({ ...editData, [e.target.name]: e.target.value });
+  };
+
+  const handleEditSave = () => {
+    updateBook(editBookId, editData);
+
+    setEditBookId(null);
   };
 
   useEffect(() => {
@@ -35,16 +63,59 @@ const MyBooksPage = () => {
           <div className="col-md-6 mb-3" key={book.id}>
             <div className="card h-100">
               <div className="card-body">
-                <h5>{book.title}</h5>
-                <h6 className="text-muted">{book.author}</h6>
-                <p>{book.description}</p>
-                <p>
-                  Status: <span className="text-success">Available</span>
-                </p>
-                <button className="btn btn-outline-warning me-2">
-                  Mark Unavailable
-                </button>
-                <button className="btn btn-outline-danger">Delete</button>
+                {editBookId === book.id ? (
+                  <>
+                    <input
+                      className="form-control mb-2"
+                      name="title"
+                      value={editData.title}
+                      onChange={handleEditChange}
+                    />
+                    <input
+                      className="form-control mb-2"
+                      name="author"
+                      value={editData.author}
+                      onChange={handleEditChange}
+                    />
+                    <textarea
+                      className="form-control mb-2"
+                      name="description"
+                      value={editData.description}
+                      onChange={handleEditChange}
+                    />
+                    <button
+                      className="btn btn-success me-2"
+                      onClick={handleEditSave}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => setEditBookId(null)}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <h5>{book.title}</h5>
+                    <h6 className="text-muted">{book.author}</h6>
+                    <p>{book.description}</p>
+                    <p>
+                      Status: <span className="text-success">Available</span>
+                    </p>
+                    <button
+                      className="btn btn-outline-primary me-2"
+                      onClick={() => handleEditClick(book)}
+                    >
+                      Edit
+                    </button>
+                    <button className="btn btn-outline-warning me-2">
+                      Mark Unavailable
+                    </button>
+                    <button className="btn btn-outline-danger">Delete</button>
+                  </>
+                )}
               </div>
             </div>
           </div>
