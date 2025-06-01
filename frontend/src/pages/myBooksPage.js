@@ -10,6 +10,7 @@ const MyBooksPage = () => {
     books,
     updateBook,
     updateAvailability,
+    deleteBook,
     error,
   } = useBooks();
   const [editBookId, setEditBookId] = useState(null);
@@ -132,7 +133,20 @@ const MyBooksPage = () => {
                       {book.available ? "Mark Unavailable" : "Mark Available"}
                     </button>
 
-                    <button className="btn btn-outline-danger">Delete</button>
+                    <button
+                      className="btn btn-outline-danger"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            "Are you sure you want to delete this book?"
+                          )
+                        ) {
+                          deleteBook(book.id);
+                        }
+                      }}
+                    >
+                      Delete
+                    </button>
                   </>
                 )}
               </div>
