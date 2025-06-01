@@ -4,7 +4,14 @@ import useBooks from "../hooks/useBooks";
 
 const MyBooksPage = () => {
   const [showForm, setShowForm] = useState(false);
-  const { addBook, fetchUserBooks, books, updateBook, error } = useBooks();
+  const {
+    addBook,
+    fetchUserBooks,
+    books,
+    updateBook,
+    changeAvailability,
+    error,
+  } = useBooks();
   const [editBookId, setEditBookId] = useState(null);
   const [editData, setEditData] = useState({
     title: "",
@@ -102,8 +109,16 @@ const MyBooksPage = () => {
                     <h6 className="text-muted">{book.author}</h6>
                     <p>{book.description}</p>
                     <p>
-                      Status: <span className="text-success">Available</span>
+                      Status:{" "}
+                      <span
+                        className={
+                          book.available ? "text-success" : "text-danger"
+                        }
+                      >
+                        {book.available ? "Available" : "Unavailable"}
+                      </span>
                     </p>
+
                     <button
                       className="btn btn-outline-primary me-2"
                       onClick={() => handleEditClick(book)}
