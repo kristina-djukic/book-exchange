@@ -6,6 +6,11 @@ const createBookQuery = `
 
 const getBooksByUserIdQuery = `SELECT * FROM Books WHERE user_id = ?`;
 
+const updateBookQuery = `
+  UPDATE Books
+  SET title = ?, author = ?, description = ?, availability_time = ?
+  WHERE id = ?`;
+
 const createBook = (title, author, description, availability_time, user_id) => {
   return new Promise((resolve, reject) => {
     db.query(
@@ -28,7 +33,21 @@ const getBooksByUserId = (user_id) => {
   });
 };
 
+const updateBook = (id, title, author, description, availability_time) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      updateBookQuery,
+      [title, author, description, availability_time, id],
+      (err, results) => {
+        if (err) return reject(err);
+        resolve(results.affectedRows > 0);
+      }
+    );
+  });
+};
+
 module.exports = {
   createBook,
   getBooksByUserId,
+  updateBook,
 };
