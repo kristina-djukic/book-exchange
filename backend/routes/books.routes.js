@@ -69,4 +69,16 @@ router.put("/:id/updateAvailability", async (req, res) => {
   }
 });
 
+router.delete("/:id/deleteBook", async (req, res) => {
+  try {
+    const success = await bookService.deleteBook(req.params.id);
+    if (!success) return res.status(404).json({ message: "Book not found" });
+    res.json({ message: "Book deleted", id: req.params.id });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to delete book", error: error.message });
+  }
+});
+
 module.exports = router;
