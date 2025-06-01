@@ -24,6 +24,11 @@ const createBook = async (
   };
 };
 
+const getBooksByUserId = async (user_id) => {
+  return await repo.getBooksByUserId(user_id);
+};
+
 module.exports = {
   createBook,
+  getBooksByUserId,
 };
