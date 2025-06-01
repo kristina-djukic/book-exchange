@@ -57,4 +57,16 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+router.put("/:id/changeAvailability", async (req, res) => {
+  try {
+    const success = await bookService.toggleAvailability(req.params.id);
+    if (!success) return res.status(404).json({ message: "Book not found" });
+    res.json({ message: "Availability updated" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to update availability", error: error.message });
+  }
+});
+
 module.exports = router;
