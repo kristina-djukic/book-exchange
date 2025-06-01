@@ -48,9 +48,14 @@ const updateAvailability = async (id) => {
   return repo.updateAvailability(id);
 };
 
+const deleteBook = async (id) => {
+  return await repo.deleteBook(id);
+};
+
 module.exports = {
   createBook,
   getBooksByUserId,
   updateBook,
   updateAvailability,
+  deleteBook,
 };
