@@ -24,4 +24,18 @@ router.post("/postBook", async (req, res) => {
   }
 });
 
+router.get("/userBooks", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
+    const books = await bookService.getBooksByUserId(userId);
+    res.json(books);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch user's books", error: error.message });
+  }
+});
+
 module.exports = router;
