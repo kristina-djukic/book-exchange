@@ -9,7 +9,7 @@ const MyBooksPage = () => {
     fetchUserBooks,
     books,
     updateBook,
-    changeAvailability,
+    updateAvailability,
     error,
   } = useBooks();
   const [editBookId, setEditBookId] = useState(null);
@@ -125,9 +125,13 @@ const MyBooksPage = () => {
                     >
                       Edit
                     </button>
-                    <button className="btn btn-outline-warning me-2">
-                      Mark Unavailable
+                    <button
+                      className="btn btn-outline-warning me-2"
+                      onClick={() => updateAvailability(book.id)}
+                    >
+                      {book.available ? "Mark Unavailable" : "Mark Available"}
                     </button>
+
                     <button className="btn btn-outline-danger">Delete</button>
                   </>
                 )}

@@ -42,9 +42,9 @@ const useBooks = () => {
     }
   };
 
-  const changeAvailability = async (id) => {
+  const updateAvailability = async (id) => {
     try {
-      await axios.put(`/books/${id}/changeAvailability`, null, {
+      await axios.put(`/books/${id}/updateAvailability`, null, {
         withCredentials: true,
       });
       setBooks((prev) =>
@@ -53,7 +53,7 @@ const useBooks = () => {
         )
       );
     } catch (err) {
-      setError("Failed to toggle availability");
+      setError("Failed to change availability");
     }
   };
 
@@ -63,7 +63,7 @@ const useBooks = () => {
     addBook,
     fetchUserBooks,
     updateBook,
-    changeAvailability,
+    updateAvailability,
   };
 };
 

@@ -44,13 +44,13 @@ const updateBook = async (
   );
 };
 
-const changeAvailability = async (id) => {
-  return repo.changeAvailability(id);
+const updateAvailability = async (id) => {
+  return repo.updateAvailability(id);
 };
 
 module.exports = {
   createBook,
   getBooksByUserId,
   updateBook,
-  changeAvailability,
+  updateAvailability,
 };
