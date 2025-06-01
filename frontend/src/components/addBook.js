@@ -5,16 +5,36 @@ const AddBook = ({ onAdd }) => {
     title: "",
     author: "",
     description: "",
+    image: null,
+    availability_time: "",
   });
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const handleImageChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.author) return;
-    onAdd(formData);
-    setFormData({ title: "", author: "", description: "" });
+    const data = new FormData();
+    data.append("title", formData.title);
+    data.append("author", formData.author);
+    data.append("description", formData.description);
+    data.append("availability_time", formData.availability_time);
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+
+    onAdd(data);
+    setFormData({
+      title: "",
+      author: "",
+      description: "",
+      availability_time: "",
+      image: null,
+    });
   };
 
   return (
@@ -50,6 +70,27 @@ const AddBook = ({ onAdd }) => {
           name="description"
           value={formData.description}
           onChange={handleChange}
+        />
+      </div>
+
+      <div className="mb-2">
+        <label className="form-label">Availability (in days):</label>
+        <input
+          className="form-control"
+          type="number"
+          name="availability_time"
+          value={formData.availability_time}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Upload Book Image:</label>
+        <input
+          className="form-control"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
         />
       </div>
 

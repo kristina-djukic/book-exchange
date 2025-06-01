@@ -109,6 +109,24 @@ const MyBooksPage = () => {
                     <h5>{book.title}</h5>
                     <h6 className="text-muted">{book.author}</h6>
                     <p>{book.description}</p>
+                    {book.image && (
+                      <div className="mb-2">
+                        <img
+                          src={`http://localhost:5000/uploads/${book.image}`}
+                          alt="Book Cover"
+                          style={{
+                            maxWidth: "100%",
+                            maxHeight: "200px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    <p>
+                      Available for: <strong>{book.availability_time}</strong>{" "}
+                      days
+                    </p>
                     <p>
                       Status:{" "}
                       <span

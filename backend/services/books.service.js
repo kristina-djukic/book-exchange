@@ -5,14 +5,16 @@ const createBook = async (
   author,
   description,
   availability_time,
-  user_id
+  user_id,
+  image
 ) => {
   const newId = await repo.createBook(
     title,
     author,
     description,
     availability_time,
-    user_id
+    user_id,
+    image
   );
   return {
     id: newId,
@@ -21,6 +23,7 @@ const createBook = async (
     description,
     availability_time,
     user_id,
+    image,
   };
 };
 

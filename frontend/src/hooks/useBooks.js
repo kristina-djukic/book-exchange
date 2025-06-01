@@ -5,9 +5,9 @@ const useBooks = () => {
   const [books, setBooks] = useState([]);
   const [error, setError] = useState("");
 
-  const addBook = async (bookData) => {
+  const addBook = async (formData) => {
     try {
-      const res = await axios.post("/books/postBook", bookData, {
+      const res = await axios.post("/books/postBook", formData, {
         withCredentials: true,
       });
       setBooks((prev) => [...prev, res.data.book]);
