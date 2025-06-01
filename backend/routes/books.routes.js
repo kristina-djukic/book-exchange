@@ -1,19 +1,35 @@
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
 const router = express.Router();
 const bookService = require("../services/books.service");
 
-router.post("/postBook", async (req, res) => {
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    const picName = `${Date.now()}-${file.originalname}`;
+    cb(null, picName);
+  },
+});
+
+const upload = multer({ storage });
+
+router.post("/postBook", upload.single("image"), async (req, res) => {
   try {
     const userId = req.session.userId;
     if (!userId) return res.status(401).json({ message: "Not logged in" });
 
     const { title, author, description, availability_time } = req.body;
+    const imagePath = req.file ? req.file.filename : null;
     const book = await bookService.createBook(
       title,
       author,
       description,
       availability_time || null,
-      userId
+      userId,
+      imagePath || null
     );
 
     res.status(201).json({ message: "Book created", book });
