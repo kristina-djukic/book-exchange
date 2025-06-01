@@ -57,6 +57,17 @@ const useBooks = () => {
     }
   };
 
+  const deleteBook = async (id) => {
+    try {
+      await axios.delete(`/books/${id}/deleteBook`, {
+        withCredentials: true,
+      });
+      setBooks((prev) => prev.filter((book) => book.id !== id));
+    } catch (err) {
+      setError("Failed to delete book");
+    }
+  };
+
   return {
     books,
     error,
@@ -64,6 +75,7 @@ const useBooks = () => {
     fetchUserBooks,
     updateBook,
     updateAvailability,
+    deleteBook,
   };
 };
 
