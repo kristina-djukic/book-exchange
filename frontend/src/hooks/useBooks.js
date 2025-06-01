@@ -16,10 +16,22 @@ const useBooks = () => {
     }
   };
 
+  const fetchUserBooks = async () => {
+    try {
+      const res = await axios.get("/books/userBooks", {
+        withCredentials: true,
+      });
+      setBooks(res.data);
+    } catch (err) {
+      setError("Failed to fetch your books");
+    }
+  };
+
   return {
     books,
     error,
     addBook,
+    fetchUserBooks,
   };
 };
 
