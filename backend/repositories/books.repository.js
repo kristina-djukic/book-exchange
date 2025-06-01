@@ -1,8 +1,8 @@
 const db = require("../config/db");
 
 const createBookQuery = `
-  INSERT INTO Books (title, author, description, availability_time, user_id)
-  VALUES (?, ?, ?, ?, ?)`;
+  INSERT INTO Books (title, author, description, availability_time, user_id, image)
+  VALUES (?, ?, ?, ?, ?, ?)`;
 
 const getBooksByUserIdQuery = `SELECT * FROM Books WHERE user_id = ?`;
 
@@ -19,11 +19,18 @@ const updateAvailabilityQuery = `
 
 const deleteBookQuery = `DELETE FROM Books WHERE id = ?`;
 
-const createBook = (title, author, description, availability_time, user_id) => {
+const createBook = (
+  title,
+  author,
+  description,
+  availability_time,
+  user_id,
+  image
+) => {
   return new Promise((resolve, reject) => {
     db.query(
       createBookQuery,
-      [title, author, description, availability_time, user_id],
+      [title, author, description, availability_time, user_id, image],
       (err, results) => {
         if (err) return reject(err);
         resolve(results.insertId);
