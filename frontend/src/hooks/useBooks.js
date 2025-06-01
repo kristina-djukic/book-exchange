@@ -42,12 +42,28 @@ const useBooks = () => {
     }
   };
 
+  const changeAvailability = async (id) => {
+    try {
+      await axios.put(`/books/${id}/changeAvailability`, null, {
+        withCredentials: true,
+      });
+      setBooks((prev) =>
+        prev.map((book) =>
+          book.id === id ? { ...book, available: !book.available } : book
+        )
+      );
+    } catch (err) {
+      setError("Failed to toggle availability");
+    }
+  };
+
   return {
     books,
     error,
     addBook,
     fetchUserBooks,
     updateBook,
+    changeAvailability,
   };
 };
 
