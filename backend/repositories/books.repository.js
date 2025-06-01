@@ -77,4 +77,5 @@ module.exports = {
   getBooksByUserId,
   updateBook,
   updateAvailability,
+  deleteBook,
 };
