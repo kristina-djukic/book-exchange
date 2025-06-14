@@ -18,6 +18,8 @@ const MyBooksPage = () => {
     title: "",
     author: "",
     description: "",
+    availability_time: "",
+    image: null,
   });
 
   const handleAddBook = (bookData) => {
@@ -34,6 +36,10 @@ const MyBooksPage = () => {
       author: book.author,
 
       description: book.description || "",
+
+      availability_time: book.availability_time || "",
+
+      image: book.image || null,
     });
   };
 
@@ -42,8 +48,18 @@ const MyBooksPage = () => {
   };
 
   const handleEditSave = () => {
-    updateBook(editBookId, editData);
+    const form = new FormData();
+    form.append("title", editData.title);
+    form.append("author", editData.author);
+    form.append("description", editData.description);
+    form.append("availability_time", editData.availability_time);
+    if (editData.image instanceof File) {
+      form.append("image", editData.image);
+    } else if (editData.image) {
+      form.append("image", editData.image);
+    }
 
+    updateBook(editBookId, form);
     setEditBookId(null);
   };
 
@@ -90,6 +106,27 @@ const MyBooksPage = () => {
                       name="description"
                       value={editData.description}
                       onChange={handleEditChange}
+                    />
+
+                    <input
+                      className="form-control mb-2"
+                      type="number"
+                      name="availability_time"
+                      value={editData.availability_time}
+                      onChange={handleEditChange}
+                      placeholder="Availability Time (days)"
+                    />
+                    <input
+                      className="form-control mb-2"
+                      type="file"
+                      name="image"
+                      onChange={(e) =>
+                        setEditData({
+                          ...editData,
+                          image: e.target.files[0],
+                        })
+                      }
+                      accept="image/*"
                     />
                     <button
                       className="btn btn-success me-2"

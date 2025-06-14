@@ -8,7 +8,7 @@ const getBooksByUserIdQuery = `SELECT * FROM Books WHERE user_id = ?`;
 
 const updateBookQuery = `
   UPDATE Books
-  SET title = ?, author = ?, description = ?, availability_time = ?
+  SET title = ?, author = ?, description = ?, availability_time = ?, image = ?
   WHERE id = ?`;
 
 const updateAvailabilityQuery = `
@@ -48,11 +48,18 @@ const getBooksByUserId = (user_id) => {
   });
 };
 
-const updateBook = (id, title, author, description, availability_time) => {
+const updateBook = (
+  id,
+  title,
+  author,
+  description,
+  availability_time,
+  image
+) => {
   return new Promise((resolve, reject) => {
     db.query(
       updateBookQuery,
-      [title, author, description, availability_time, id],
+      [title, author, description, availability_time, image, id],
       (err, results) => {
         if (err) return reject(err);
         resolve(results.affectedRows > 0);

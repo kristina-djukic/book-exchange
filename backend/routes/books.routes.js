@@ -3,18 +3,9 @@ const multer = require("multer");
 const path = require("path");
 const router = express.Router();
 const bookService = require("../services/books.service");
+const getMulterUpload = require("../functions/imageStorage");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    const picName = `${Date.now()}-${file.originalname}`;
-    cb(null, picName);
-  },
-});
-
-const upload = multer({ storage });
+const upload = getMulterUpload();
 
 router.post("/postBook", upload.single("image"), async (req, res) => {
   try {
@@ -54,25 +45,31 @@ router.get("/userBooks", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id/updateBook", upload.single("image"), async (req, res) => {
   try {
     const userId = req.session.userId;
     if (!userId) return res.status(401).json({ message: "Not logged in" });
 
     const { title, author, description, availability_time } = req.body;
+    const imagePath = req.file ? req.file.filename : req.body.image || null;
+
     const success = await bookService.updateBook(
       req.params.id,
       title,
       author,
       description,
-      availability_time
+      availability_time,
+      imagePath
     );
+
     if (!success) return res.status(404).json({ message: "Book not found" });
-    res.json({ message: "Book updated" });
+
+    res.json({ message: "Book updated", image: imagePath });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to update book", error: error.message });
+    res.status(500).json({
+      message: "Failed to update book",
+      error: error.message,
+    });
   }
 });
 

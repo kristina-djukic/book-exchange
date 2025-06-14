@@ -36,14 +36,16 @@ const updateBook = async (
   title,
   author,
   description,
-  availability_time
+  availability_time,
+  image
 ) => {
   return await repo.updateBook(
     id,
     title,
     author,
     description,
-    availability_time
+    availability_time,
+    image
   );
 };
 

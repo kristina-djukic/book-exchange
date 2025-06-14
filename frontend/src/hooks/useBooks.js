@@ -29,9 +29,22 @@ const useBooks = () => {
 
   const updateBook = async (id, updatedData) => {
     try {
-      const res = await axios.put(`/books/${id}`, updatedData, {
+      const data =
+        updatedData instanceof FormData
+          ? updatedData
+          : (() => {
+              const form = new FormData();
+              Object.entries(updatedData).forEach(([key, val]) =>
+                form.append(key, val)
+              );
+              return form;
+            })();
+
+      const res = await axios.put(`/books/${id}/updateBook`, data, {
         withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
       });
+
       setBooks((prev) =>
         prev.map((book) =>
           book.id === id ? { ...book, ...updatedData } : book
