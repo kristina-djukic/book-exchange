@@ -25,7 +25,7 @@
   box-sizing: border-box;
 }
 
-.profile-card {
+.profile-card.card {
   max-width: 800px;
   width: 100%;
   padding: 2rem;
