@@ -33,11 +33,44 @@ const updateProfileQuery = `
   WHERE id = ?
 `;
 
+const getLocationByCityPostcodeQuery = `
+  SELECT id
+  FROM locations
+  WHERE city = ? AND postcode = ?
+`;
+
+const createLocationQuery = `
+  INSERT INTO locations (city, postcode)
+  VALUES (?, ?)
+`;
+
 const getProfileById = (userId) => {
   return new Promise((resolve, reject) => {
     db.query(getProfileByIdQuery, [userId], (err, results) => {
       if (err) return reject(err);
       resolve(results[0] || null);
+    });
+  });
+};
+
+const getLocationByCityPostcode = (city, postcode) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      getLocationByCityPostcodeQuery,
+      [city, postcode],
+      (err, results) => {
+        if (err) return reject(err);
+        resolve(results[0] || null);
+      }
+    );
+  });
+};
+
+const createLocation = (city, postcode) => {
+  return new Promise((resolve, reject) => {
+    db.query(createLocationQuery, [city, postcode], (err, result) => {
+      if (err) return reject(err);
+      resolve(result.insertId);
     });
   });
 };
@@ -78,4 +111,6 @@ const updateProfile = (
 module.exports = {
   getProfileById,
   updateProfile,
+  getLocationByCityPostcode,
+  createLocation,
 };
