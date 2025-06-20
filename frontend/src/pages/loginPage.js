@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
+import "./loginPage.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -23,47 +24,60 @@ const LoginPage = () => {
       setError(err.response?.data?.message || "Login failed");
     }
   };
-
   return (
-    <div className="login-page">
-      <h2>Login</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={HandleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="login-background">
+      <div className="login-container">
+        <div className="login-card card shadow">
+          <div className="card-body">
+            <h2 className="card-title mb-4 text-center">Login</h2>
+            {error && <div className="alert alert-danger">{error}</div>}
+            <form onSubmit={HandleSubmit}>
+              <div className="mb-4">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  className="form-control form-control-lg"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  className="form-control form-control-lg"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg w-100"
+                disabled={loading}
+              >
+                {loading ? "Logging in..." : "Login"}
+              </button>
+            </form>
+            <p className="mt-4 text-center">
+              Don't have an account?{" "}
+              <span
+                className="text-primary link"
+                onClick={() => navigate("/register")}
+              >
+                Register here
+              </span>
+            </p>
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <p>
-        Don't have an account?{" "}
-        <span
-          style={{
-            color: "blue",
-            textDecoration: "underline",
-            cursor: "pointer",
-          }}
-          onClick={() => navigate("/register")}
-        >
-          Register here
-        </span>
-      </p>
+      </div>
     </div>
   );
 };
