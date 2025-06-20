@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRegister } from "../hooks/useRegister";
 import { useNavigate } from "react-router-dom";
+import "./authPages.css";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -43,75 +44,98 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-page">
-      <h2>Register</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={HandleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+    <div className="auth-background">
+      <div className="auth-container">
+        <div className="auth-card card shadow">
+          <div className="card-body">
+            <h2 className="card-title mb-4 text-center">Register</h2>
+            {error && <div className="alert alert-danger">{error}</div>}
+            <form onSubmit={HandleSubmit}>
+              <div className="mb-4">
+                <label htmlFor="name" className="form-label">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  className="form-control form-control-lg"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="surname" className="form-label">
+                  Surname
+                </label>
+                <input
+                  id="surname"
+                  type="text"
+                  className="form-control form-control-lg"
+                  value={surname}
+                  onChange={(e) => setSurname(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="username" className="form-label">
+                  Username
+                </label>
+                <input
+                  id="username"
+                  type="text"
+                  className="form-control form-control-lg"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  className="form-control form-control-lg"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  className="form-control form-control-lg"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg w-100"
+                disabled={loading}
+              >
+                {loading ? "Registering..." : "Register"}
+              </button>
+            </form>
+            <p className="mt-4 text-center">
+              Already have an account?{" "}
+              <span
+                className="auth-link text-primary"
+                onClick={() => navigate("/login")}
+              >
+                Log in
+              </span>
+            </p>
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Surname:</label>
-          <input
-            type="text"
-            id="surname"
-            value={surname}
-            onChange={(e) => setSurname(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      <p>
-        Already have an account?{" "}
-        <span
-          style={{
-            color: "blue",
-            textDecoration: "underline",
-            cursor: "pointer",
-          }}
-          onClick={() => navigate("/login")}
-        >
-          Log in
-        </span>
-      </p>
+      </div>
     </div>
   );
 };

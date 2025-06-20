@@ -1,4 +1,4 @@
-.login-background {
+.auth-background {
   position: fixed;
   top: 56px;
   left: 0;
@@ -15,7 +15,7 @@
   background-attachment: fixed;
   overflow: hidden;
 }
-.login-container {
+.auth-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,13 +23,13 @@
   padding: 2rem;
   box-sizing: border-box;
 }
-.login-card.card {
+.auth-card.card {
   max-width: 500px;
   width: 100%;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.8);
 }
-.link {
+.auth-link {
   cursor: pointer;
   text-decoration: underline;
 }

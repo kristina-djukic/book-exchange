@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
-import "./loginPage.css";
+import "./authPages.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -25,9 +25,9 @@ const LoginPage = () => {
     }
   };
   return (
-    <div className="login-background">
-      <div className="login-container">
-        <div className="login-card card shadow">
+    <div className="auth-background">
+      <div className="auth-container">
+        <div className="auth-card card shadow">
           <div className="card-body">
             <h2 className="card-title mb-4 text-center">Login</h2>
             {error && <div className="alert alert-danger">{error}</div>}
@@ -69,7 +69,7 @@ const LoginPage = () => {
             <p className="mt-4 text-center">
               Don't have an account?{" "}
               <span
-                className="text-primary link"
+                className="auth-link text-primary"
                 onClick={() => navigate("/register")}
               >
                 Register here
