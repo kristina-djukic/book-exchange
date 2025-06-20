@@ -1,9 +1,23 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const hideOn = ["/login", "/register"];
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("/auth/logout", {}, { withCredentials: true });
+      toast.success("Logged out successfully!");
+      navigate("/login");
+    } catch (err) {
+      toast.error("Logout failed. Please try again.");
+      console.error("Logout error:", err);
+    }
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light px-3">
@@ -40,17 +54,27 @@ const NavBar = () => {
               </li>
             </ul>
 
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                name="search"
-                placeholder="Search books..."
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
+            {location.pathname === "/profile" ? (
+              <button
+                className="btn btn-outline-danger"
+                type="button"
+                onClick={handleLogout}
+              >
+                Log out
               </button>
-            </form>
+            ) : (
+              <form className="d-flex">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  name="search"
+                  placeholder="Search books..."
+                />
+                <button className="btn btn-outline-success" type="submit">
+                  Search
+                </button>
+              </form>
+            )}
           </div>
         </>
       )}
