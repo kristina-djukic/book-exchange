@@ -10,8 +10,8 @@ const getProfileByIdQuery = `
     l.postcode,
     u.address,
     u.phone,
-    u.contact_email AS contactEmail,
-    u.contact_phone AS contactPhone,
+    u.contact_email,
+    u.contact_phone,
     u.picture
   FROM user u
   LEFT JOIN locations l
@@ -82,8 +82,8 @@ const updateProfile = (
   locationId,
   address,
   phone,
-  contactEmail,
-  contactPhone,
+  contact_email,
+  contact_phone,
   picture
 ) => {
   return new Promise((resolve, reject) => {
@@ -95,8 +95,8 @@ const updateProfile = (
         locationId,
         address,
         phone,
-        contactEmail,
-        contactPhone,
+        contact_email,
+        contact_phone,
         picture,
         userId,
       ],
