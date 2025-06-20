@@ -4,10 +4,20 @@ const {
   createUser,
   userCheckEmail,
   userCheckUsername,
+  getLocationByCityPostcode,
+  createLocation,
   getUserByEmail,
 } = require("../repositories/auth.repository");
 
-const register = async (username, name, surname, email, password) => {
+const register = async (
+  username,
+  name,
+  surname,
+  email,
+  password,
+  city,
+  postcode
+) => {
   const emailExists = await userCheckEmail(email);
   if (emailExists) {
     throw new Error("EMAIL_ALREADY_EXISTS");
@@ -17,7 +27,15 @@ const register = async (username, name, surname, email, password) => {
     throw new Error("USERNAME_ALREADY_EXISTS");
   }
 
-  createUser(username, name, surname, email, password);
+  let loc = await getLocationByCityPostcode(city, postcode);
+  let locationId;
+  if (loc) {
+    locationId = loc.id;
+  } else {
+    locationId = await createLocation(city, postcode);
+  }
+
+  createUser(username, name, surname, email, password, locationId);
 };
 
 const login = async (email, password) => {

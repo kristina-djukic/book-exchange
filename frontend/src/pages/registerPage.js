@@ -9,6 +9,8 @@ const RegisterPage = () => {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [username, setUsername] = useState("");
+  const [city, setCity] = useState("");
+  const [postcode, setPostcode] = useState("");
   const [error, setError] = useState("");
   const { createUser, success, loading } = useRegister();
   const navigate = useNavigate();
@@ -33,6 +35,8 @@ const RegisterPage = () => {
       username,
       email,
       password,
+      city,
+      postcode,
     };
     try {
       createUser(userData);
@@ -78,6 +82,32 @@ const RegisterPage = () => {
                 />
               </div>
               <div className="mb-4">
+                <label htmlFor="city" className="form-label">
+                  City
+                </label>
+                <input
+                  id="city"
+                  type="text"
+                  className="form-control form-control-lg"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="postcode" className="form-label">
+                  Postcode
+                </label>
+                <input
+                  id="postcode"
+                  type="text"
+                  className="form-control form-control-lg"
+                  value={postcode}
+                  onChange={(e) => setPostcode(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-4">
                 <label htmlFor="username" className="form-label">
                   Username
                 </label>
@@ -90,6 +120,7 @@ const RegisterPage = () => {
                   required
                 />
               </div>
+
               <div className="mb-4">
                 <label htmlFor="email" className="form-label">
                   Email

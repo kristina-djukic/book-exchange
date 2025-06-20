@@ -10,7 +10,15 @@ export const useRegister = () => {
 
   const navigate = useNavigate();
 
-  const createUser = async ({ name, surname, username, email, password }) => {
+  const createUser = async ({
+    name,
+    surname,
+    username,
+    email,
+    password,
+    city,
+    postcode,
+  }) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -22,13 +30,15 @@ export const useRegister = () => {
         username,
         email,
         password,
+        city,
+        postcode,
       });
 
       setSuccess(true);
       toast.success("Registration successful!");
       navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.message);
+      setError(err.response?.data?.message || "Registration failed");
       toast.error(error);
     } finally {
       setLoading(false);
