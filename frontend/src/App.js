@@ -5,6 +5,7 @@ import LoginPage from "./pages/loginPage";
 import NavBar from "./components/navBar";
 import HomePage from "./pages/homePage";
 import MyBooksPage from "./pages/myBooksPage";
+import ProfilePage from "./pages/profilePage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/mybooks" element={<MyBooksPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );
