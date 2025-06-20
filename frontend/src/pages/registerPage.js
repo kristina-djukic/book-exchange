@@ -49,7 +49,7 @@ const RegisterPage = () => {
 
   return (
     <div className="auth-background">
-      <div className="auth-container">
+      <div className="register-container">
         <div className="auth-card card shadow">
           <div className="card-body">
             <h2 className="card-title mb-4 text-center">Register</h2>
