@@ -64,31 +64,31 @@ const ProfileForm = ({ form, handleChange, handleSubmit }) => {
 
       <fieldset className="mb-4">
         <legend className="col-form-label">Preferred Contact</legend>
+
         <div className="form-check">
           <input
             className="form-check-input"
-            type="radio"
-            name="contactBy"
-            id="contact-email"
-            value="email"
-            checked={form.contactBy === "email"}
+            type="checkbox"
+            id="contactEmail"
+            name="contact_email"
+            checked={!!form.contact_email}
             onChange={handleChange}
           />
-          <label className="form-check-label" htmlFor="contact-email">
+          <label className="form-check-label" htmlFor="contactEmail">
             Email
           </label>
         </div>
+
         <div className="form-check">
           <input
             className="form-check-input"
-            type="radio"
-            name="contactBy"
-            id="contact-phone"
-            value="phone"
-            checked={form.contactBy === "phone"}
+            type="checkbox"
+            id="contactPhone"
+            name="contact_phone"
+            checked={!!form.contact_phone}
             onChange={handleChange}
           />
-          <label className="form-check-label" htmlFor="contact-phone">
+          <label className="form-check-label" htmlFor="contactPhone">
             Phone
           </label>
         </div>
