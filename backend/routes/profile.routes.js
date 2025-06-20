@@ -38,8 +38,14 @@ router.put("/updateProfile", upload.single("picture"), async (req, res) => {
       contact_phone,
     } = req.body;
 
-    const picture = req.file ? req.file.filename : null;
-
+    let picture;
+    if (req.file) {
+      picture = req.file.filename;
+    } else if (req.body.removePicture === "true") {
+      picture = null;
+    } else {
+      picture = req.body.existingPicture || null;
+    }
     const updatedProfile = await profileService.updateProfile(
       userId,
       name,
@@ -48,8 +54,8 @@ router.put("/updateProfile", upload.single("picture"), async (req, res) => {
       postcode,
       address,
       phone,
-      contact_email ? 1 : 0,
-      contact_phone ? 1 : 0,
+      Number(contact_email),
+      Number(contact_phone),
       picture
     );
 

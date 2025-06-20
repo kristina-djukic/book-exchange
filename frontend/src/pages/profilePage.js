@@ -16,14 +16,15 @@ const ProfilePage = () => {
     postcode: "",
     address: "",
     phone: "",
-    contactBy: true,
-    pictureURL: false,
+    contact_email: true,
+    contact_phone: false,
+    pictureURL: "",
     picture: null,
   });
 
   useEffect(() => {
     fetchProfile();
-  }, [fetchProfile]);
+  }, []);
 
   useEffect(() => {
     if (!profile) return;
@@ -36,9 +37,13 @@ const ProfilePage = () => {
       address: profile.address || "",
       phone: profile.phone || "",
       contact_email:
-        profile.contact_email !== undefined ? !!profile.contact_email : true,
+        profile.contact_email !== undefined
+          ? profile.contact_email === 1
+          : true,
       contact_phone:
-        profile.contact_phone !== undefined ? !!profile.contact_phone : false,
+        profile.contact_phone !== undefined
+          ? profile.contact_phone === 1
+          : false,
       pictureURL: profile.picture || "",
       picture: null,
     });
@@ -62,9 +67,15 @@ const ProfilePage = () => {
     data.append("postcode", form.postcode);
     data.append("address", form.address);
     data.append("phone", form.phone);
-    data.append("contact_email", form.contact_email);
-    data.append("contact_phone", form.contact_phone);
-    if (form.picture) data.append("picture", form.picture);
+    data.append("contact_email", form.contact_email ? 1 : 0);
+    data.append("contact_phone", form.contact_phone ? 1 : 0);
+    if (form.picture) {
+      data.append("picture", form.picture);
+    } else if (form.pictureURL) {
+      data.append("existingPicture", form.pictureURL);
+    } else {
+      data.append("removePicture", "true");
+    }
 
     const success = await updateProfile(data);
     if (success) {
@@ -106,7 +117,7 @@ const ProfilePage = () => {
 
             {isEditing ? (
               <ProfileForm
-                form={form}
+                form={{ ...form, setForm }}
                 handleChange={HandleChange}
                 handleSubmit={HandleSubmit}
               />

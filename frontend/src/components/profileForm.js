@@ -60,6 +60,23 @@ const ProfileForm = ({ form, handleChange, handleSubmit }) => {
           className="form-control"
           onChange={handleChange}
         />
+        {(form.pictureURL || form.picture) && (
+          <button
+            type="button"
+            className="btn btn-danger mt-2"
+            onClick={() => {
+              if (form.setForm) {
+                form.setForm((prev) => ({
+                  ...prev,
+                  picture: null,
+                  pictureURL: "",
+                }));
+              }
+            }}
+          >
+            Remove Picture
+          </button>
+        )}
       </div>
 
       <fieldset className="mb-4">
