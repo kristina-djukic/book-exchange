@@ -25,7 +25,7 @@ export const useRegister = () => {
       });
 
       setSuccess(true);
-      toast.success("Success message!");
+      toast.success("Registration successful!");
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message);

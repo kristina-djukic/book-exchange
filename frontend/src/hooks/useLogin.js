@@ -22,7 +22,7 @@ export const useLogin = () => {
       });
 
       setSuccess(true);
-      toast.success("Success message!");
+      toast.success("Login successful!");
       navigate("/homepage");
     } catch (err) {
       setError(err.response?.data?.message);
