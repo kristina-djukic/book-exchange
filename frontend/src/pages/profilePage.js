@@ -91,7 +91,6 @@ const ProfilePage = () => {
     : defaultAvatar;
 
   if (error) return <p className="error">{error}</p>;
-  if (!profile) return <p>Loading profile…</p>;
 
   return (
     <div className="profile-background">
