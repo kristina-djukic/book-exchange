@@ -12,12 +12,14 @@ router.post("/postBook", upload.single("image"), async (req, res) => {
     const userId = req.session.userId;
     if (!userId) return res.status(401).json({ message: "Not logged in" });
 
-    const { title, author, description, availability_time } = req.body;
+    const { title, author, description, language, availability_time } =
+      req.body;
     const imagePath = req.file ? req.file.filename : null;
     const book = await bookService.createBook(
       title,
       author,
       description,
+      language,
       availability_time || null,
       userId,
       imagePath || null
@@ -50,21 +52,27 @@ router.put("/:id/updateBook", upload.single("image"), async (req, res) => {
     const userId = req.session.userId;
     if (!userId) return res.status(401).json({ message: "Not logged in" });
 
-    const { title, author, description, availability_time } = req.body;
-    const imagePath = req.file ? req.file.filename : req.body.image || null;
+    const { title, author, description, language, availability_time } =
+      req.body;
+    const imagePath = req.file
+      ? req.file.filename
+      : req.body.removeImage === "true"
+      ? null
+      : req.body.image || null;
 
     const success = await bookService.updateBook(
       req.params.id,
       title,
       author,
       description,
+      language,
       availability_time,
       imagePath
     );
 
     if (!success) return res.status(404).json({ message: "Book not found" });
 
-    res.json({ message: "Book updated", image: imagePath });
+    res.json({ message: "Book updated", book: success });
   } catch (error) {
     res.status(500).json({
       message: "Failed to update book",

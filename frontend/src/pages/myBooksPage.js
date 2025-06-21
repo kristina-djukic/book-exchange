@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddBook from "../components/addBook";
 import useBooks from "../hooks/useBooks";
+import defaultBookImage from "../assets/nobookimage.png";
 
 const MyBooksPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -18,6 +19,7 @@ const MyBooksPage = () => {
     title: "",
     author: "",
     description: "",
+    language: "",
     availability_time: "",
     image: null,
   });
@@ -37,6 +39,8 @@ const MyBooksPage = () => {
 
       description: book.description || "",
 
+      language: book.language,
+
       availability_time: book.availability_time || "",
 
       image: book.image || null,
@@ -52,9 +56,12 @@ const MyBooksPage = () => {
     form.append("title", editData.title);
     form.append("author", editData.author);
     form.append("description", editData.description);
+    form.append("language", editData.language);
     form.append("availability_time", editData.availability_time);
     if (editData.image instanceof File) {
       form.append("image", editData.image);
+    } else if (editData.image === null) {
+      form.append("removeImage", "true");
     } else if (editData.image) {
       form.append("image", editData.image);
     }
@@ -110,12 +117,49 @@ const MyBooksPage = () => {
 
                     <input
                       className="form-control mb-2"
+                      name="language"
+                      value={editData.language}
+                      onChange={handleEditChange}
+                    />
+
+                    <input
+                      className="form-control mb-2"
                       type="number"
                       name="availability_time"
                       value={editData.availability_time}
                       onChange={handleEditChange}
                       placeholder="Availability Time (days)"
                     />
+                    <div className="mb-2">
+                      <img
+                        src={
+                          editData.image instanceof File
+                            ? URL.createObjectURL(editData.image)
+                            : editData.image === null
+                            ? defaultBookImage
+                            : book.image
+                            ? `/uploads/${book.image}`
+                            : defaultBookImage
+                        }
+                        alt="Book Cover"
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "200px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                    {(book.image || editData.image) && (
+                      <button
+                        className="btn btn-danger mb-2"
+                        type="button"
+                        onClick={() =>
+                          setEditData({ ...editData, image: null })
+                        }
+                      >
+                        Remove Picture
+                      </button>
+                    )}
                     <input
                       className="form-control mb-2"
                       type="file"
@@ -146,20 +190,24 @@ const MyBooksPage = () => {
                     <h5>{book.title}</h5>
                     <h6 className="text-muted">{book.author}</h6>
                     <p>{book.description}</p>
-                    {book.image && (
-                      <div className="mb-2">
-                        <img
-                          src={`http://localhost:5000/uploads/${book.image}`}
-                          alt="Book Cover"
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: "200px",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </div>
-                    )}
-
+                    <div className="mb-2">
+                      <img
+                        src={
+                          book.image
+                            ? `/uploads/${book.image}`
+                            : defaultBookImage
+                        }
+                        alt="Book Cover"
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "200px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                    <p>
+                      Book language: <strong>{book.language}</strong>
+                    </p>
                     <p>
                       Available for: <strong>{book.availability_time}</strong>{" "}
                       days

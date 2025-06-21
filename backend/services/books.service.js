@@ -4,6 +4,7 @@ const createBook = async (
   title,
   author,
   description,
+  language,
   availability_time,
   user_id,
   image
@@ -12,6 +13,7 @@ const createBook = async (
     title,
     author,
     description,
+    language,
     availability_time,
     user_id,
     image
@@ -21,9 +23,11 @@ const createBook = async (
     title,
     author,
     description,
+    language,
     availability_time,
     user_id,
     image,
+    available: true,
   };
 };
 
@@ -36,17 +40,29 @@ const updateBook = async (
   title,
   author,
   description,
+  language,
   availability_time,
   image
 ) => {
-  return await repo.updateBook(
+  const updated = await repo.updateBook(
     id,
     title,
     author,
     description,
+    language,
     availability_time,
     image
   );
+  if (!updated) return null;
+  return {
+    id,
+    title,
+    author,
+    description,
+    language,
+    availability_time,
+    image,
+  };
 };
 
 const updateAvailability = async (id) => {

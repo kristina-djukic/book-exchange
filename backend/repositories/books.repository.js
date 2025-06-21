@@ -1,14 +1,14 @@
 const db = require("../config/db");
 
 const createBookQuery = `
-  INSERT INTO Books (title, author, description, availability_time, user_id, image)
-  VALUES (?, ?, ?, ?, ?, ?)`;
+  INSERT INTO Books (title, author, description, language, availability_time, user_id, image, available)
+  VALUES (?, ?, ?, ?, ?, ?, ?, 1)`;
 
 const getBooksByUserIdQuery = `SELECT * FROM Books WHERE user_id = ?`;
 
 const updateBookQuery = `
   UPDATE Books
-  SET title = ?, author = ?, description = ?, availability_time = ?, image = ?
+  SET title = ?, author = ?, description = ?, language = ?, availability_time = ?, image = ?
   WHERE id = ?`;
 
 const updateAvailabilityQuery = `
@@ -23,6 +23,7 @@ const createBook = (
   title,
   author,
   description,
+  language,
   availability_time,
   user_id,
   image
@@ -30,7 +31,7 @@ const createBook = (
   return new Promise((resolve, reject) => {
     db.query(
       createBookQuery,
-      [title, author, description, availability_time, user_id, image],
+      [title, author, description, language, availability_time, user_id, image],
       (err, results) => {
         if (err) return reject(err);
         resolve(results.insertId);
@@ -53,13 +54,14 @@ const updateBook = (
   title,
   author,
   description,
+  language,
   availability_time,
   image
 ) => {
   return new Promise((resolve, reject) => {
     db.query(
       updateBookQuery,
-      [title, author, description, availability_time, image, id],
+      [title, author, description, language, availability_time, image, id],
       (err, results) => {
         if (err) return reject(err);
         resolve(results.affectedRows > 0);

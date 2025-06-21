@@ -5,6 +5,7 @@ const AddBook = ({ onAdd }) => {
     title: "",
     author: "",
     description: "",
+    language: "",
     image: null,
     availability_time: "",
   });
@@ -22,6 +23,7 @@ const AddBook = ({ onAdd }) => {
     data.append("title", formData.title);
     data.append("author", formData.author);
     data.append("description", formData.description);
+    data.append("language", formData.language);
     data.append("availability_time", formData.availability_time);
     if (formData.image) {
       data.append("image", formData.image);
@@ -32,6 +34,7 @@ const AddBook = ({ onAdd }) => {
       title: "",
       author: "",
       description: "",
+      language: "",
       availability_time: "",
       image: null,
     });
@@ -70,6 +73,17 @@ const AddBook = ({ onAdd }) => {
           name="description"
           value={formData.description}
           onChange={handleChange}
+        />
+      </div>
+      <div className="mb-2">
+        <label className="form-label">Language:</label>
+        <input
+          className="form-control"
+          type="text"
+          name="language"
+          value={formData.language}
+          onChange={handleChange}
+          required
         />
       </div>
 

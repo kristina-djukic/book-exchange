@@ -1,18 +1,20 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const useBooks = () => {
   const [books, setBooks] = useState([]);
-  const [error, setError] = useState("");
+  const [error] = useState("");
 
   const addBook = async (formData) => {
     try {
       const res = await axios.post("/books/postBook", formData, {
         withCredentials: true,
       });
+      toast.success("Book added successfuly");
       setBooks((prev) => [...prev, res.data.book]);
     } catch (err) {
-      setError("Failed to add book");
+      toast.error("Failed to add book");
     }
   };
 
@@ -23,7 +25,7 @@ const useBooks = () => {
       });
       setBooks(res.data);
     } catch (err) {
-      setError("Failed to fetch your books");
+      toast.error("Failed to fetch your books");
     }
   };
 
@@ -44,14 +46,16 @@ const useBooks = () => {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
+      console.log("updateBook response:", res.data);
 
+      const updatedBook = res.data.book;
       setBooks((prev) =>
         prev.map((book) =>
-          book.id === id ? { ...book, ...updatedData } : book
+          book.id === id ? { ...book, ...updatedBook } : book
         )
       );
     } catch (err) {
-      setError("Failed to update book");
+      toast.error("Failed to update book");
     }
   };
 
@@ -66,7 +70,7 @@ const useBooks = () => {
         )
       );
     } catch (err) {
-      setError("Failed to change availability");
+      toast.error("Failed to change availability");
     }
   };
 
@@ -75,9 +79,9 @@ const useBooks = () => {
       await axios.delete(`/books/${id}/deleteBook`, {
         withCredentials: true,
       });
-      setBooks((prev) => prev.filter((book) => book.id != id));
+      setBooks((prev) => prev.filter((book) => book.id !== id));
     } catch (err) {
-      setError("Failed to delete book");
+      toast.error("Failed to delete book");
     }
   };
 
