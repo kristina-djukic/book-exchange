@@ -6,11 +6,8 @@ import "./bookCard.css";
 const BookCard = ({ book }) => {
   const [open, setOpen] = useState(false);
 
-  const loc = book.address
-    ? `${book.address}, ${book.city}${
-        book.postcode ? `, ${book.postcode}` : ""
-      }`
-    : `${book.city}${book.postcode ? `, ${book.postcode}` : ""}` || "—";
+  const loc =
+    [book.address, book.city, book.postcode].filter(Boolean).join(", ") || "—";
 
   return (
     <div className="card book-card mb-4 shadow-sm">

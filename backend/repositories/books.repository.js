@@ -27,7 +27,10 @@ const getBooksByCityQuery = `
     u.contact_email,
     u.contact_phone,
     u.contact_email AS contactEmail,
-    u.contact_phone AS contactPhone
+    u.contact_phone AS contactPhone,
+    u.address,
+    l.city,
+    l.postcode
   FROM Books b
   JOIN user u ON b.user_id = u.id
   JOIN locations l ON u.location_id = l.id

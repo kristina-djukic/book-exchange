@@ -29,7 +29,8 @@
   gap: 0.5rem 1rem;
 }
 .info-item {
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 .info-label {
   font-weight: 600;
