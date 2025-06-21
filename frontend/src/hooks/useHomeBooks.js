@@ -21,6 +21,7 @@ function useHomeBooks() {
 
   useEffect(() => {
     fetchHomeBooks();
+    // eslint-disable-next-line
   }, [profile]);
 
   return {
