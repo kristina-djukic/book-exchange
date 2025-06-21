@@ -111,4 +111,25 @@ router.delete("/:id/deleteBook", async (req, res) => {
   }
 });
 
+router.get("/byCity", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
+    const profile = await require("../services/profile.service").getProfileById(
+      userId
+    );
+    if (!profile || !profile.city) {
+      return res.status(400).json({ message: "No city on your profile" });
+    }
+
+    const books = await bookService.getBooksByCity(profile.city);
+    res.json(books);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch books", error: err.message });
+  }
+});
+
 module.exports = router;

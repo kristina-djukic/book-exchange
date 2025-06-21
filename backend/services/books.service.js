@@ -73,10 +73,15 @@ const deleteBook = async (id) => {
   return await repo.deleteBook(id);
 };
 
+const getBooksByCity = async (city) => {
+  return repo.getBooksByCity(city);
+};
+
 module.exports = {
   createBook,
   getBooksByUserId,
   updateBook,
   updateAvailability,
   deleteBook,
+  getBooksByCity,
 };

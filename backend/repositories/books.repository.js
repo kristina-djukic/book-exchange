@@ -19,6 +19,22 @@ const updateAvailabilityQuery = `
 
 const deleteBookQuery = `DELETE FROM Books WHERE id = ?`;
 
+const getBooksByCityQuery = `
+  SELECT
+    b.*,
+    u.username,
+    u.picture    AS userPicture,
+    u.contact_email,
+    u.contact_phone,
+    u.contact_email AS contactEmail,
+    u.contact_phone AS contactPhone
+  FROM Books b
+  JOIN user u ON b.user_id = u.id
+  JOIN locations l ON u.location_id = l.id
+  WHERE l.city = ?
+    AND b.available = 1
+`;
+
 const createBook = (
   title,
   author,
@@ -88,10 +104,19 @@ const deleteBook = (id) => {
   });
 };
 
+const getBooksByCity = (city) =>
+  new Promise((resolve, reject) => {
+    db.query(getBooksByCityQuery, [city], (err, rows) => {
+      if (err) return reject(err);
+      resolve(rows);
+    });
+  });
+
 module.exports = {
   createBook,
   getBooksByUserId,
   updateBook,
   updateAvailability,
   deleteBook,
+  getBooksByCity,
 };
