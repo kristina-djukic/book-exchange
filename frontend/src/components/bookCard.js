@@ -59,7 +59,11 @@ const BookCard = ({ book }) => {
 
         <div className="d-flex align-items-center mb-3 poster">
           <img
-            src={book.posterAvatar || defaultAvatar}
+            src={
+              book.posterAvatar
+                ? `/uploads/${book.posterAvatar}`
+                : defaultAvatar
+            }
             className="poster-thumb"
             alt="poster"
           />

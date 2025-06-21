@@ -16,7 +16,7 @@ const HomePage = () => {
               book={{
                 ...b,
                 posterUsername: b.username,
-                posterAvatar: b.pictureURL,
+                posterAvatar: b.userPicture,
               }}
             />
           </div>
