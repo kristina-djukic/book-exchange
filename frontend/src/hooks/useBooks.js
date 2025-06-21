@@ -11,7 +11,7 @@ const useBooks = () => {
       const res = await axios.post("/books/postBook", formData, {
         withCredentials: true,
       });
-      toast.success("Book added successfuly");
+      toast.success("Book added successfully");
       setBooks((prev) => [...prev, res.data.book]);
     } catch (err) {
       toast.error("Failed to add book");

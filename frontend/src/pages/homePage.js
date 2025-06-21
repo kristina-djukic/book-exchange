@@ -1,43 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
+import useHomeBooks from "../hooks/useHomeBooks";
 import BookCard from "../components/bookCard";
+import "./homePage.css";
 
-const placeholderBooks = [
-  {
-    book_id: 1,
-    title: "The Alchemist",
-    author: "Paulo Coelho",
-    description: "A philosophical novel about following your dreams.",
-  },
-  {
-    book_id: 2,
-    title: "1984",
-    author: "George Orwell",
-    description:
-      "A dystopian social science fiction novel and cautionary tale.",
-  },
-  {
-    book_id: 3,
-    title: "Dune",
-    author: "Frank Herbert",
-    description: "Epic science fiction about politics, power, and spice.",
-  },
-];
+export default function HomePage() {
+  const { books, error } = useHomeBooks();
+  const [contactFor, setContactFor] = useState(null);
 
-const HomePage = () => {
   return (
-    <div className="container mt-4">
-      <h2>Welcome back!</h2>
-      <p>Here are some books near you:</p>
+    <div className="home-background">
+      <div className="home-container">
+        <h1 className="mb-3">Books Near You</h1>
+        {error && <p className="text-danger">{error}</p>}
 
-      <div className="row">
-        {placeholderBooks.map((book) => (
-          <div className="col-md-4 mb-3" key={book.book_id}>
-            <BookCard book={book} />
+        <div className="row">
+          {books.map((b) => (
+            <div className="col-md-4 mb-4" key={b.id}>
+              <BookCard book={b} onRequest={setContactFor} />
+            </div>
+          ))}
+        </div>
+
+        {contactFor && (
+          <div className="request-modal">
+            <div className="modal-content p-4">
+              <h5>Contact {contactFor.username}</h5>
+              <ul>
+                {contactFor.contactEmail && (
+                  <li>
+                    Email:{" "}
+                    <a href={`mailto:${contactFor.contact_email}`}>
+                      {contactFor.contact_email}
+                    </a>
+                  </li>
+                )}
+                {contactFor.contactPhone && (
+                  <li>Phone: {contactFor.contact_phone}</li>
+                )}
+              </ul>
+              <button
+                className="btn btn-secondary mt-3"
+                onClick={() => setContactFor(null)}
+              >
+                Close
+              </button>
+            </div>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
-};
-
-export default HomePage;
+}
