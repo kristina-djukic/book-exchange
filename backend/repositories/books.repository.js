@@ -29,6 +29,8 @@ const getBooksByCityQuery = `
     u.contact_email AS contactEmail,
     u.contact_phone AS contactPhone,
     u.address,
+    u.email,
+    u.phone,
     l.city,
     l.postcode
   FROM Books b
