@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const useProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -12,7 +13,7 @@ const useProfile = () => {
       });
       setProfile(res.data);
     } catch (err) {
-      setError("Failed to fetch profile");
+      toast.error("Failed to fetch profile");
     }
   };
 
@@ -26,7 +27,7 @@ const useProfile = () => {
       setError("");
       return true;
     } catch (err) {
-      setError("Failed to update profile");
+      toast.error("Failed to update profile");
       return false;
     }
   };

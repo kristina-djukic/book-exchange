@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import useProfile from "./useProfile";
+import { toast } from "react-toastify";
 
 function useHomeBooks() {
   const { profile, error: profileError } = useProfile();
   const [books, setBooks] = useState([]);
-  const [error, setError] = useState("");
+  const [error] = useState("");
 
   const fetchHomeBooks = async () => {
     if (!profile) return;
@@ -15,7 +16,7 @@ function useHomeBooks() {
       });
       setBooks(data.filter((b) => b.user_id !== profile.id));
     } catch {
-      setError("Could not load books near you");
+      toast.error("Could not load books near you");
     }
   };
 
