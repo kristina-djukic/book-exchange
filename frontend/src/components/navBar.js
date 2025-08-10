@@ -12,6 +12,8 @@ const NavBar = () => {
     try {
       await axios.post("/auth/logout", {}, { withCredentials: true });
       toast.success("Logged out successfully!");
+      localStorage.setItem("isAuthenticated", false);
+
       navigate("/login");
     } catch (err) {
       toast.error("Logout failed. Please try again.");

@@ -5,8 +5,10 @@ import { toast } from "react-toastify";
 const useBooks = () => {
   const [books, setBooks] = useState([]);
   const [error] = useState("");
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
 
   const addBook = async (formData) => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     try {
       const res = await axios.post("/books/postBook", formData, {
         withCredentials: true,
@@ -19,6 +21,7 @@ const useBooks = () => {
   };
 
   const fetchUserBooks = async () => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     try {
       const res = await axios.get("/books/userBooks", {
         withCredentials: true,
@@ -30,6 +33,7 @@ const useBooks = () => {
   };
 
   const updateBook = async (id, updatedData) => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     try {
       const data =
         updatedData instanceof FormData
@@ -60,6 +64,7 @@ const useBooks = () => {
   };
 
   const updateAvailability = async (id) => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     try {
       await axios.put(`/books/${id}/updateAvailability`, null, {
         withCredentials: true,
@@ -75,6 +80,7 @@ const useBooks = () => {
   };
 
   const deleteBook = async (id) => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     try {
       await axios.delete(`/books/${id}/deleteBook`, {
         withCredentials: true,

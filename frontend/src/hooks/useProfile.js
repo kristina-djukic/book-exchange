@@ -6,7 +6,10 @@ const useProfile = () => {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
 
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+
   const fetchProfile = async () => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     try {
       const res = await axios.get("/profile/userProfile", {
         withCredentials: true,

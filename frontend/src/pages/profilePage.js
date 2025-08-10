@@ -3,6 +3,7 @@ import ProfileForm from "../components/profileForm";
 import defaultAvatar from "../assets/noimage.png";
 import "./profilePage.css";
 import useProfile from "../hooks/useProfile";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const { profile, error, fetchProfile, updateProfile } = useProfile();
@@ -48,6 +49,13 @@ const ProfilePage = () => {
       picture: null,
     });
   }, [profile]);
+
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === "false") navigate("/login");
+  }, [isAuthenticated, navigate]);
 
   const HandleChange = (e) => {
     const { name, type, checked, value, files } = e.target;

@@ -8,6 +8,8 @@ function useHomeBooks() {
   const [books, setBooks] = useState([]);
   const [error] = useState("");
 
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+
   const fetchHomeBooks = async () => {
     if (!profile) return;
     try {
@@ -21,6 +23,7 @@ function useHomeBooks() {
   };
 
   useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     fetchHomeBooks();
     // eslint-disable-next-line
   }, [profile]);

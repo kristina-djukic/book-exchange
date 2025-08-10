@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BookCard from "../components/bookCard";
 import useHomeBooks from "../hooks/useHomeBooks";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const { books, error } = useHomeBooks();
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
 
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === "false") navigate("/login");
+  }, [isAuthenticated, navigate]);
   return (
     <div className="container py-4">
       <h2 className="mb-3">Books Near You</h2>

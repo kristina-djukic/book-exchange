@@ -23,6 +23,7 @@ export const useLogin = () => {
 
       setSuccess(true);
       toast.success("Login successful!");
+      localStorage.setItem("isAuthenticated", true);
       navigate("/homepage");
     } catch (err) {
       setError(err.response?.data?.message);

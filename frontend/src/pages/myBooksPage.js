@@ -3,6 +3,7 @@ import AddBook from "../components/addBook";
 import useBooks from "../hooks/useBooks";
 import defaultBookImage from "../assets/nobookimage.png";
 import "./myBooksPage.css";
+import { useNavigate } from "react-router-dom";
 
 const MyBooksPage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -24,6 +25,13 @@ const MyBooksPage = () => {
     availability_time: "",
     image: null,
   });
+
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === "false") navigate("/login");
+  }, [isAuthenticated, navigate]);
 
   const handleAddBook = (bookData) => {
     addBook(bookData);
