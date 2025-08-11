@@ -7,6 +7,18 @@ import HomePage from "./pages/homePage";
 import MyBooksPage from "./pages/myBooksPage";
 import ProfilePage from "./pages/profilePage";
 import SearchPage from "./pages/searchPage";
+import axios from "axios";
+
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.setItem("isAuthenticated", "false");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 function App() {
   return (
