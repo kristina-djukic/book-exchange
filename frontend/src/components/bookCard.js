@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import defaultBookImage from "../assets/nobookimage.png";
 import defaultAvatar from "../assets/noimage.png";
-import StarRating from "./starRating";
 import "./bookCard.css";
 import ReviewModal from "./reviewModal";
 import useProfile from "../hooks/useProfile";
@@ -10,6 +9,10 @@ const BookCard = ({ book }) => {
   const [open, setOpen] = useState(false);
   const [openRequest, setOpenRequest] = useState(false);
   const [openReview, setOpenReview] = useState(false);
+  const [reviewCount, setReviewCount] = useState(book.review_count || 0);
+  const [averageRating, setAverageRating] = useState(
+    parseFloat(book.average_rating).toFixed(1)
+  );
 
   const { profile } = useProfile();
   const currentUserId = profile?.id;
@@ -33,11 +36,10 @@ const BookCard = ({ book }) => {
             {book.average_rating && (
               <div className="book-rating mb-2">
                 <span className="rating-number me-2 text-warning fw-bold">
-                  ★ {parseFloat(book.average_rating).toFixed(1)}
+                  ★ {parseFloat(averageRating).toFixed(1)}
                 </span>
                 <span className="small text-muted">
-                  ({book.review_count || 0} review
-                  {book.review_count !== 1 ? "s" : ""})
+                  {reviewCount} {reviewCount > 1 ? "reviews" : "review"}
                 </span>
               </div>
             )}
@@ -161,6 +163,9 @@ const BookCard = ({ book }) => {
           isOpen={openReview}
           onClose={() => setOpenReview(false)}
           currentUserId={currentUserId}
+          reviewCount={reviewCount}
+          setReviewCount={setReviewCount}
+          setAverageRating={setAverageRating}
         />
       )}
     </>

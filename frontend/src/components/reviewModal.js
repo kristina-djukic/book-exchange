@@ -4,8 +4,16 @@ import useReviews from "../hooks/useReviews";
 import defaultAvatar from "../assets/noimage.png";
 import defaultBookImage from "../assets/nobookimage.png";
 
-const ReviewModal = ({ book, isOpen, onClose, currentUserId }) => {
-  const [rating, setRating] = useState(0);
+const ReviewModal = ({
+  book,
+  isOpen,
+  onClose,
+  currentUserId,
+  reviewCount,
+  setReviewCount,
+  setAverageRating,
+}) => {
+  const [rating, setRating] = useState(0.0);
   const [comment, setComment] = useState("");
   const [showAddReview, setShowAddReview] = useState(false);
   const { reviews, loading, fetchReviews, addReview, deleteReview } =
@@ -29,6 +37,8 @@ const ReviewModal = ({ book, isOpen, onClose, currentUserId }) => {
 
     const success = await addReview(book.id, rating, comment);
     if (success) {
+      setAverageRating(calculateRating(rating));
+      setReviewCount(reviewCount + 1);
       setRating(0);
       setComment("");
       setShowAddReview(false);
@@ -36,18 +46,22 @@ const ReviewModal = ({ book, isOpen, onClose, currentUserId }) => {
   };
 
   const handleDeleteReview = async () => {
+    setReviewCount(reviewCount - 1);
+    setAverageRating(0.0);
     if (window.confirm("Are you sure you want to delete your review?")) {
       await deleteReview(book.id);
     }
   };
 
-  const averageRating =
-    reviews.length > 0
-      ? (
-          reviews.reduce((sum, review) => sum + review.rating, 0) /
-          reviews.length
-        ).toFixed(1)
-      : "0.0";
+  const calculateRating = (newRating = 0) => {
+    if (reviews.length === 0 && newRating === 0) return 0.0;
+
+    const totalRatings =
+      reviews.reduce((sum, review) => sum + review.rating, 0) + newRating;
+    const totalCount = reviews.length + (newRating ? 1 : 0);
+
+    return parseFloat((totalRatings / totalCount).toFixed(1));
+  };
 
   const userReview = reviews.find((review) => review.user_id === currentUserId);
 
@@ -88,12 +102,13 @@ const ReviewModal = ({ book, isOpen, onClose, currentUserId }) => {
                     <p className="text-muted mb-2">by {book.author}</p>
                     <div className="d-flex align-items-center">
                       <StarRating
-                        rating={parseFloat(averageRating)}
+                        rating={parseFloat(calculateRating()).toFixed(1)}
                         readOnly
                         size="1.2rem"
                       />
                       <span className="ms-2">
-                        {averageRating} ({reviews.length} review
+                        {parseFloat(calculateRating()).toFixed(1)} (
+                        {reviews.length} review
                         {reviews.length !== 1 ? "s" : ""})
                       </span>
                     </div>
