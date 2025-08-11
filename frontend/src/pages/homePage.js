@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import BookCard from "../components/bookCard";
 import useHomeBooks from "../hooks/useHomeBooks";
 import { useNavigate } from "react-router-dom";
-import "./homePage.css";
 
 const HomePage = () => {
   const { latestBooks, topRatedBooks, error } = useHomeBooks();

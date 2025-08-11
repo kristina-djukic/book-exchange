@@ -1,27 +1,9 @@
-.auth-background {
-  position: fixed;
-  top: 56px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.2)
-    ),
-    url("../assets/book_exchange.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  overflow: auto;
-}
 .auth-container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   padding: 2rem;
-  box-sizing: border-box;
 }
 
 .register-container {
@@ -30,14 +12,15 @@
   justify-content: center;
   min-height: calc(100vh - 56px);
   padding: 4rem 2rem;
-  box-sizing: border-box;
 }
+
 .auth-card.card {
   max-width: 500px;
   width: 100%;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.8);
 }
+
 .auth-link {
   cursor: pointer;
   text-decoration: underline;
