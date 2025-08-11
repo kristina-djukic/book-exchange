@@ -4,7 +4,7 @@ const createBookQuery = `
   INSERT INTO books (title, author, description, language, availability_time, user_id, image, available)
   VALUES (?, ?, ?, ?, ?, ?, ?, 1)`;
 
-const getBooksByUserIdQuery = `SELECT * FROM Books WHERE user_id = ?`;
+const getBooksByUserIdQuery = `SELECT * FROM books WHERE user_id = ?`;
 
 const updateBookQuery = `
   UPDATE books
@@ -17,7 +17,7 @@ const updateAvailabilityQuery = `
   WHERE id = ?
 `;
 
-const deleteBookQuery = `DELETE FROM Books WHERE id = ?`;
+const deleteBookQuery = `DELETE FROM books WHERE id = ?`;
 
 const getBooksByCityQuery = `
   SELECT
