@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const hideOn = ["/login", "/register"];
+  const hideOn = ["/login", "/register", "/"];
 
   const handleLogout = async () => {
     try {
@@ -23,7 +23,7 @@ const NavBar = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light px-3">
-      <Link className="navbar-brand" to="/">
+      <Link className="navbar-brand" to="/homepage">
         Book Exchange
       </Link>
       {!hideOn.includes(location.pathname) && (
