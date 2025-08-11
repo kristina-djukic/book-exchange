@@ -23,6 +23,22 @@ const useReviews = () => {
     }
   };
 
+  const fetchUserReviews = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await axios.get("/profile/reviews", {
+        withCredentials: true,
+      });
+      setReviews(res.data);
+    } catch (err) {
+      setError("Failed to fetch user reviews");
+      console.error("Fetch user reviews error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const addReview = async (bookId, rating, comment) => {
     try {
       await axios.post(
@@ -39,16 +55,47 @@ const useReviews = () => {
     }
   };
 
-  const deleteReview = async (bookId) => {
+  const deleteReview = async (bookId, refreshUserReviews = false) => {
     try {
       await axios.delete(`/books/${bookId}/reviews`, {
         withCredentials: true,
       });
       toast.success("Review deleted successfully!");
-      await fetchReviews(bookId);
+
+      if (refreshUserReviews) {
+        await fetchUserReviews();
+      } else {
+        await fetchReviews(bookId);
+      }
       return true;
     } catch (err) {
       toast.error("Failed to delete review");
+      return false;
+    }
+  };
+
+  const updateReview = async (
+    bookId,
+    rating,
+    comment,
+    refreshUserReviews = false
+  ) => {
+    try {
+      await axios.post(
+        `/books/${bookId}/reviews`,
+        { rating, comment },
+        { withCredentials: true }
+      );
+      toast.success("Review updated successfully!");
+
+      if (refreshUserReviews) {
+        await fetchUserReviews();
+      } else {
+        await fetchReviews(bookId);
+      }
+      return true;
+    } catch (err) {
+      toast.error("Failed to update review");
       return false;
     }
   };
@@ -58,8 +105,10 @@ const useReviews = () => {
     loading,
     error,
     fetchReviews,
+    fetchUserReviews,
     addReview,
     deleteReview,
+    updateReview,
   };
 };
 
