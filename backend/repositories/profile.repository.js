@@ -44,6 +44,18 @@ const createLocationQuery = `
   VALUES (?, ?)
 `;
 
+const getUserReviewsQuery = `
+  SELECT 
+    r.*,
+    b.title as bookTitle,
+    b.author as bookAuthor,
+    b.image as bookImage
+  FROM reviews r
+  JOIN books b ON r.book_id = b.id
+  WHERE r.user_id = ?
+  ORDER BY r.date_posted DESC
+`;
+
 const getProfileById = (userId) => {
   return new Promise((resolve, reject) => {
     db.query(getProfileByIdQuery, [userId], (err, results) => {
@@ -108,9 +120,19 @@ const updateProfile = (
   });
 };
 
+const getUserReviews = (userId) => {
+  return new Promise((resolve, reject) => {
+    db.query(getUserReviewsQuery, [userId], (err, results) => {
+      if (err) return reject(err);
+      resolve(results);
+    });
+  });
+};
+
 module.exports = {
   getProfileById,
   updateProfile,
   getLocationByCityPostcode,
   createLocation,
+  getUserReviews,
 };

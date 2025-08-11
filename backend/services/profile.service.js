@@ -35,7 +35,12 @@ const updateProfile = async (
   );
 };
 
+const getUserReviews = async (userId) => {
+  return await repo.getUserReviews(userId);
+};
+
 module.exports = {
   getProfileById,
   updateProfile,
+  getUserReviews,
 };

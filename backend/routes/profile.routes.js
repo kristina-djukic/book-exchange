@@ -70,4 +70,19 @@ router.put("/updateProfile", upload.single("picture"), async (req, res) => {
   }
 });
 
+router.get("/reviews", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
+    const reviews = await profileService.getUserReviews(userId);
+    res.json(reviews);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch user reviews",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;
