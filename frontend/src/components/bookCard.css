@@ -176,6 +176,19 @@
   max-width: 33.333333%;
 }
 
+.modal-dialog {
+  margin-top: 80px !important;
+  margin-bottom: 20px !important;
+}
+
+.modal {
+  z-index: 9999 !important;
+}
+
+.modal-backdrop {
+  z-index: 9998 !important;
+}
+
 @media (max-width: 992px) {
   .homepage-results .row > div,
   .search-results .row > div {

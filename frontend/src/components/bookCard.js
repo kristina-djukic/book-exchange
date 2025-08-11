@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import defaultBookImage from "../assets/nobookimage.png";
 import defaultAvatar from "../assets/noimage.png";
+import StarRating from "./starRating";
 import "./bookCard.css";
 import ReviewModal from "./reviewModal";
 import useProfile from "../hooks/useProfile";
@@ -28,6 +29,20 @@ const BookCard = ({ book }) => {
           <div className="flex-grow-1 ps-3">
             <h5 className="mb-1">{book.title}</h5>
             <p className="text-muted mb-2 small">{book.author}</p>
+
+            {book.average_rating && (
+              <div className="book-rating mb-2">
+                <StarRating
+                  rating={parseFloat(book.average_rating)}
+                  readOnly
+                  size="0.9rem"
+                />
+                <span className="ms-1 small text-muted">
+                  {book.average_rating} ({book.review_count || 0})
+                </span>
+              </div>
+            )}
+
             <button
               className="btn btn-sm btn-outline-primary"
               onClick={() => setOpen((v) => !v)}
@@ -134,14 +149,6 @@ const BookCard = ({ book }) => {
                       This user hasn't shared contact details.
                     </p>
                   )}
-                </div>
-                <div className="modal-footer">
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => setOpenRequest(false)}
-                  >
-                    Close
-                  </button>
                 </div>
               </div>
             </div>
