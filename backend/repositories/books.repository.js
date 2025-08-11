@@ -74,20 +74,24 @@ const searchBooksQuery = `
   SELECT
     b.*,
     u.username,
-    u.picture    AS userPicture,
+    u.picture AS userPicture,
     u.contact_email,
     u.contact_phone,
-    u.contact_email AS contactEmail,
-    u.contact_phone AS contactPhone,
     u.address,
     u.email,
     u.phone,
     l.city,
-    l.postcode
+    l.postcode,
+    COALESCE(AVG(r.rating), 0) as average_rating,
+    COUNT(r.id) as review_count
   FROM books b
   JOIN user u ON b.user_id = u.id
   JOIN locations l ON u.location_id = l.id
+  LEFT JOIN reviews r ON b.id = r.book_id
   WHERE (b.title LIKE ? OR b.author LIKE ?)
+  GROUP BY b.id, u.username, u.picture, u.contact_email, u.contact_phone, 
+           u.address, u.email, u.phone, l.city, l.postcode
+  ORDER BY b.date_posted DESC
 `;
 
 const getBookReviewsQuery = `

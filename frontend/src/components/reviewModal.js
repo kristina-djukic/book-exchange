@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import StarRating from "./starRating";
 import useReviews from "../hooks/useReviews";
 import defaultAvatar from "../assets/noimage.png";
+import defaultBookImage from "../assets/nobookimage.png";
 
 const ReviewModal = ({ book, isOpen, onClose, currentUserId }) => {
   const [rating, setRating] = useState(0);
@@ -72,9 +73,7 @@ const ReviewModal = ({ book, isOpen, onClose, currentUserId }) => {
                 <div className="d-flex align-items-start">
                   <img
                     src={
-                      book.image
-                        ? `/uploads/${book.image}`
-                        : "/default-book.png"
+                      book.image ? `/uploads/${book.image}` : defaultBookImage
                     }
                     alt="Book cover"
                     style={{

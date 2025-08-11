@@ -32,13 +32,12 @@ const BookCard = ({ book }) => {
 
             {book.average_rating && (
               <div className="book-rating mb-2">
-                <StarRating
-                  rating={parseFloat(book.average_rating)}
-                  readOnly
-                  size="0.9rem"
-                />
-                <span className="ms-1 small text-muted">
-                  {book.average_rating} ({book.review_count || 0})
+                <span className="rating-number me-2 text-warning fw-bold">
+                  ★ {parseFloat(book.average_rating).toFixed(1)}
+                </span>
+                <span className="small text-muted">
+                  ({book.review_count || 0} review
+                  {book.review_count !== 1 ? "s" : ""})
                 </span>
               </div>
             )}
