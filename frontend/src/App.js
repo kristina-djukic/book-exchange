@@ -6,6 +6,7 @@ import NavBar from "./components/navBar";
 import HomePage from "./pages/homePage";
 import MyBooksPage from "./pages/myBooksPage";
 import ProfilePage from "./pages/profilePage";
+import SearchPage from "./pages/searchPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/mybooks" element={<MyBooksPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </Router>
   );

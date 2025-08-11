@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
   const hideOn = ["/login", "/register", "/"];
 
   const handleLogout = async () => {
@@ -13,11 +14,17 @@ const NavBar = () => {
       await axios.post("/auth/logout", {}, { withCredentials: true });
       toast.success("Logged out successfully!");
       localStorage.setItem("isAuthenticated", false);
-
       navigate("/login");
     } catch (err) {
       toast.error("Logout failed. Please try again.");
       console.error("Logout error:", err);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -65,12 +72,13 @@ const NavBar = () => {
                 Log out
               </button>
             ) : (
-              <form className="d-flex">
+              <form className="d-flex" onSubmit={handleSearch}>
                 <input
                   className="form-control me-2"
                   type="search"
-                  name="search"
                   placeholder="Search books..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <button className="btn btn-outline-success" type="submit">
                   Search

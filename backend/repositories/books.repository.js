@@ -57,8 +57,7 @@ const searchBooksQuery = `
   FROM Books b
   JOIN user u ON b.user_id = u.id
   JOIN locations l ON u.location_id = l.id
-  WHERE b.available = 1
-    AND (b.title LIKE ? OR b.author LIKE ?)
+  WHERE (b.title LIKE ? OR b.author LIKE ?)
 `;
 
 const createBook = (
