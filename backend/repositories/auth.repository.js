@@ -2,13 +2,13 @@ const db = require("../config/db");
 const hashPassword = require("../functions/hashPassword");
 
 const registerQuery = `
-  INSERT INTO user
+  INSERT INTO users
     (username, name, surname, email, password, location_id)
   VALUES (?, ?, ?, ?, ?, ?)
 `;
 const userEmailQuery = `
   SELECT id, username, name, surname, email, password
-  FROM user
+  FROM users
   WHERE email = ?
 `;
 

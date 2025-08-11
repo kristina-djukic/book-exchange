@@ -34,7 +34,7 @@ const getBooksByCityQuery = `
     COALESCE(AVG(r.rating), 0) as average_rating,
     COUNT(r.id) as review_count
   FROM books b
-  JOIN user u ON b.user_id = u.id
+  JOIN users u ON b.user_id = u.id
   JOIN locations l ON u.location_id = l.id
   LEFT JOIN reviews r ON b.id = r.book_id
   WHERE l.city = ? AND b.available = 1
@@ -59,7 +59,7 @@ const getBooksByRatingQuery = `
     COALESCE(AVG(r.rating), 0) as average_rating,
     COUNT(r.id) as review_count
   FROM books b
-  JOIN user u ON b.user_id = u.id
+  JOIN users u ON b.user_id = u.id
   JOIN locations l ON u.location_id = l.id
   LEFT JOIN reviews r ON b.id = r.book_id
   WHERE l.city = ? AND b.available = 1
@@ -85,7 +85,7 @@ const searchBooksQuery = `
     COALESCE(AVG(r.rating), 0) as average_rating,
     COUNT(r.id) as review_count
   FROM books b
-  JOIN user u ON b.user_id = u.id
+  JOIN users u ON b.user_id = u.id
   JOIN locations l ON u.location_id = l.id
   LEFT JOIN reviews r ON b.id = r.book_id
   WHERE (b.title LIKE ? OR b.author LIKE ?)
@@ -100,7 +100,7 @@ const getBookReviewsQuery = `
     u.username,
     u.picture as userPicture
   FROM reviews r
-  JOIN user u ON r.user_id = u.id
+  JOIN users u ON r.user_id = u.id
   WHERE r.book_id = ?
   ORDER BY r.date_posted DESC
 `;

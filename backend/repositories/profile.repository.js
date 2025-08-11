@@ -13,14 +13,14 @@ const getProfileByIdQuery = `
     u.contact_email,
     u.contact_phone,
     u.picture
-  FROM user u
+  FROM users u
   LEFT JOIN locations l
     ON u.location_id = l.id
   WHERE u.id = ?
 `;
 
 const updateProfileQuery = `
-  UPDATE user
+  UPDATE users
   SET
     name          = ?,
     surname       = ?,
