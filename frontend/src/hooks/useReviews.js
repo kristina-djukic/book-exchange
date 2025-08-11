@@ -19,7 +19,6 @@ const useReviews = () => {
       setReviews(res.data);
     } catch (err) {
       setError("Failed to fetch reviews");
-      console.error("Fetch reviews error:", err);
     } finally {
       setLoading(false);
     }
@@ -36,7 +35,6 @@ const useReviews = () => {
       setReviews(res.data);
     } catch (err) {
       setError("Failed to fetch user reviews");
-      console.error("Fetch user reviews error:", err);
     } finally {
       setLoading(false);
     }

@@ -50,7 +50,6 @@ const useBooks = () => {
         withCredentials: true,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log("updateBook response:", res.data);
 
       const updatedBook = res.data.book;
       setBooks((prev) =>
