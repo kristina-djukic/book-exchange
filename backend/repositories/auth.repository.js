@@ -56,7 +56,7 @@ const getUserByEmail = async (email) => {
 const userCheckUsername = async (username) => {
   return new Promise((resolve, reject) => {
     db.query(
-      "SELECT 1 FROM user WHERE username = ?",
+      "SELECT 1 FROM users WHERE username = ?",
       [username],
       (err, result) => {
         if (err) return reject(err);
@@ -68,7 +68,7 @@ const userCheckUsername = async (username) => {
 
 const userCheckEmail = async (email) => {
   return new Promise((resolve, reject) => {
-    db.query("SELECT 1 FROM user WHERE email = ?", [email], (err, result) => {
+    db.query("SELECT 1 FROM users WHERE email = ?", [email], (err, result) => {
       if (err) return reject(err);
       resolve(result.length > 0);
     });
