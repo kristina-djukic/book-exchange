@@ -77,6 +77,10 @@ const getBooksByCity = async (city) => {
   return repo.getBooksByCity(city);
 };
 
+const getBooksByRating = async (city) => {
+  return repo.getBooksByRating(city);
+};
+
 const searchBooks = async (searchTerm) => {
   return await repo.searchBooks(searchTerm);
 };
@@ -100,6 +104,7 @@ module.exports = {
   updateAvailability,
   deleteBook,
   getBooksByCity,
+  getBooksByRating,
   searchBooks,
   getBookReviews,
   addOrUpdateReview,

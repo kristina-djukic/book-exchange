@@ -132,6 +132,25 @@ router.get("/byCity", async (req, res) => {
   }
 });
 
+router.get("/byRating", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+    const profile = await require("../services/profile.service").getProfileById(
+      userId
+    );
+    if (!profile || !profile.city) {
+      return res.status(400).json({ message: "No city on your profile" });
+    }
+    const books = await bookService.getBooksByRating(profile.city);
+    res.json(books);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Failed to fetch top rated books", error: err.message });
+  }
+});
+
 router.get("/search", async (req, res) => {
   try {
     const userId = req.session.userId;

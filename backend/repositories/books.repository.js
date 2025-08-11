@@ -1,18 +1,18 @@
 const db = require("../config/db");
 
 const createBookQuery = `
-  INSERT INTO Books (title, author, description, language, availability_time, user_id, image, available)
+  INSERT INTO books (title, author, description, language, availability_time, user_id, image, available)
   VALUES (?, ?, ?, ?, ?, ?, ?, 1)`;
 
 const getBooksByUserIdQuery = `SELECT * FROM Books WHERE user_id = ?`;
 
 const updateBookQuery = `
-  UPDATE Books
+  UPDATE books
   SET title = ?, author = ?, description = ?, language = ?, availability_time = ?, image = ?
   WHERE id = ?`;
 
 const updateAvailabilityQuery = `
-  UPDATE Books
+  UPDATE books
   SET available = NOT available
   WHERE id = ?
 `;
@@ -23,21 +23,51 @@ const getBooksByCityQuery = `
   SELECT
     b.*,
     u.username,
-    u.picture    AS userPicture,
+    u.picture AS userPicture,
     u.contact_email,
     u.contact_phone,
-    u.contact_email AS contactEmail,
-    u.contact_phone AS contactPhone,
     u.address,
     u.email,
     u.phone,
     l.city,
-    l.postcode
-  FROM Books b
+    l.postcode,
+    COALESCE(AVG(r.rating), 0) as average_rating,
+    COUNT(r.id) as review_count
+  FROM books b
   JOIN user u ON b.user_id = u.id
   JOIN locations l ON u.location_id = l.id
-  WHERE l.city = ?
-    AND b.available = 1
+  LEFT JOIN reviews r ON b.id = r.book_id
+  WHERE l.city = ? AND b.available = 1
+  GROUP BY b.id, u.username, u.picture, u.contact_email, u.contact_phone, 
+           u.address, u.email, u.phone, l.city, l.postcode
+  ORDER BY b.date_posted DESC
+  LIMIT 12
+`;
+
+const getBooksByRatingQuery = `
+  SELECT
+    b.*,
+    u.username,
+    u.picture AS userPicture,
+    u.contact_email,
+    u.contact_phone,
+    u.address,
+    u.email,
+    u.phone,
+    l.city,
+    l.postcode,
+    COALESCE(AVG(r.rating), 0) as average_rating,
+    COUNT(r.id) as review_count
+  FROM books b
+  JOIN user u ON b.user_id = u.id
+  JOIN locations l ON u.location_id = l.id
+  LEFT JOIN reviews r ON b.id = r.book_id
+  WHERE l.city = ? AND b.available = 1
+  GROUP BY b.id, u.username, u.picture, u.contact_email, u.contact_phone, 
+           u.address, u.email, u.phone, l.city, l.postcode
+  HAVING average_rating > 0
+  ORDER BY average_rating DESC, review_count DESC
+  LIMIT 12
 `;
 
 const searchBooksQuery = `
@@ -54,7 +84,7 @@ const searchBooksQuery = `
     u.phone,
     l.city,
     l.postcode
-  FROM Books b
+  FROM books b
   JOIN user u ON b.user_id = u.id
   JOIN locations l ON u.location_id = l.id
   WHERE (b.title LIKE ? OR b.author LIKE ?)
@@ -162,6 +192,14 @@ const getBooksByCity = (city) =>
     });
   });
 
+const getBooksByRating = (city) =>
+  new Promise((resolve, reject) => {
+    db.query(getBooksByRatingQuery, [city], (err, rows) => {
+      if (err) return reject(err);
+      resolve(rows);
+    });
+  });
+
 const searchBooks = (searchTerm) => {
   return new Promise((resolve, reject) => {
     const searchPattern = `%${searchTerm}%`;
@@ -214,6 +252,7 @@ module.exports = {
   updateAvailability,
   deleteBook,
   getBooksByCity,
+  getBooksByRating,
   searchBooks,
   getBookReviews,
   addOrUpdateReview,

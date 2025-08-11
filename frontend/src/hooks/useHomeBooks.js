@@ -5,31 +5,46 @@ import { toast } from "react-toastify";
 
 function useHomeBooks() {
   const { profile, error: profileError } = useProfile();
-  const [books, setBooks] = useState([]);
+  const [latestBooks, setLatestBooks] = useState([]);
+  const [topRatedBooks, setTopRatedBooks] = useState([]);
   const [error] = useState("");
 
   const isAuthenticated = localStorage.getItem("isAuthenticated");
 
-  const fetchHomeBooks = async () => {
+  const fetchLatestBooks = async () => {
     if (!profile) return;
     try {
       const { data } = await axios.get("/books/byCity", {
         withCredentials: true,
       });
-      setBooks(data.filter((b) => b.user_id !== profile.id));
+      setLatestBooks(data.filter((b) => b.user_id !== profile.id));
     } catch {
-      toast.error("Could not load books near you");
+      toast.error("Could not load latest books");
+    }
+  };
+
+  const fetchTopRatedBooks = async () => {
+    if (!profile) return;
+    try {
+      const { data } = await axios.get("/books/byRating", {
+        withCredentials: true,
+      });
+      setTopRatedBooks(data.filter((b) => b.user_id !== profile.id));
+    } catch {
+      toast.error("Could not load top rated books");
     }
   };
 
   useEffect(() => {
     if (!isAuthenticated || isAuthenticated === "false") return;
-    fetchHomeBooks();
+    fetchLatestBooks();
+    fetchTopRatedBooks();
     // eslint-disable-next-line
   }, [profile]);
 
   return {
-    books,
+    latestBooks,
+    topRatedBooks,
     error: error || profileError,
   };
 }
