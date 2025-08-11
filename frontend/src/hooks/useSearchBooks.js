@@ -6,8 +6,11 @@ function useSearchBooks() {
   const [books, setBooks] = useState([]);
   const [error] = useState("");
   const [loading, setLoading] = useState(false);
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
 
   const searchBooks = async (query) => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
+
     if (!query || query.trim() === "") {
       setBooks([]);
       return;

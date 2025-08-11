@@ -21,6 +21,7 @@ const useProfile = () => {
   };
 
   const updateProfile = async (formData) => {
+    if (!isAuthenticated || isAuthenticated === "false") return false;
     try {
       const res = await axios.put("/profile/updateProfile", formData, {
         withCredentials: true,

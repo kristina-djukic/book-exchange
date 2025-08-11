@@ -3,11 +3,14 @@ import { useSearchParams } from "react-router-dom";
 import BookCard from "../components/bookCard";
 import useSearchBooks from "../hooks/useSearchBooks";
 import "./searchPage.css";
+import { useNavigate } from "react-router-dom";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
   const { books, loading, error, searchBooks } = useSearchBooks();
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
 
   const [locationFilter, setLocationFilter] = useState("");
   const [languageFilter, setLanguageFilter] = useState("");
@@ -44,6 +47,10 @@ const SearchPage = () => {
 
     setFilteredBooks(filtered);
   }, [books, locationFilter, languageFilter, showUnavailable]);
+
+  useEffect(() => {
+    if (!isAuthenticated || isAuthenticated === "false") navigate("/login");
+  }, [isAuthenticated, navigate]);
 
   const clearFilters = () => {
     setLocationFilter("");

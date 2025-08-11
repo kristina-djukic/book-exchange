@@ -6,8 +6,10 @@ const useReviews = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
 
   const fetchReviews = async (bookId) => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     setLoading(true);
     setError("");
     try {
@@ -24,6 +26,7 @@ const useReviews = () => {
   };
 
   const fetchUserReviews = async () => {
+    if (!isAuthenticated || isAuthenticated === "false") return;
     setLoading(true);
     setError("");
     try {
@@ -40,6 +43,7 @@ const useReviews = () => {
   };
 
   const addReview = async (bookId, rating, comment) => {
+    if (!isAuthenticated || isAuthenticated === "false") return false;
     try {
       await axios.post(
         `/books/${bookId}/reviews`,
@@ -56,6 +60,7 @@ const useReviews = () => {
   };
 
   const deleteReview = async (bookId, refreshUserReviews = false) => {
+    if (!isAuthenticated || isAuthenticated === "false") return false;
     try {
       await axios.delete(`/books/${bookId}/reviews`, {
         withCredentials: true,
@@ -80,6 +85,7 @@ const useReviews = () => {
     comment,
     refreshUserReviews = false
   ) => {
+    if (!isAuthenticated || isAuthenticated === "false") return false;
     try {
       await axios.post(
         `/books/${bookId}/reviews`,
