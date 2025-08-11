@@ -132,4 +132,22 @@ router.get("/byCity", async (req, res) => {
   }
 });
 
+router.get("/search", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
+    const { query } = req.query;
+    if (!query || query.trim() === "") {
+      return res.status(400).json({ message: "Search query is required" });
+    }
+
+    const books = await bookService.searchBooks(query.trim());
+    const filteredBooks = books.filter((book) => book.user_id !== userId);
+    res.json(filteredBooks);
+  } catch (error) {
+    res.status(500).json({ message: "Search failed", error: error.message });
+  }
+});
+
 module.exports = router;

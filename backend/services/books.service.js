@@ -77,6 +77,10 @@ const getBooksByCity = async (city) => {
   return repo.getBooksByCity(city);
 };
 
+const searchBooks = async (searchTerm) => {
+  return await repo.searchBooks(searchTerm);
+};
+
 module.exports = {
   createBook,
   getBooksByUserId,
@@ -84,4 +88,5 @@ module.exports = {
   updateAvailability,
   deleteBook,
   getBooksByCity,
+  searchBooks,
 };
