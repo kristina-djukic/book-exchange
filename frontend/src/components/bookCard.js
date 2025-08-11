@@ -31,18 +31,18 @@ const BookCard = ({ book }) => {
           </div>
         </div>
 
-        <div className={`details p-3 ${open ? "show" : ""}`}>
+        <div className={`details ${open ? "show" : ""}`}>
           <div className="info-list mb-3">
             <div className="info-item">
-              <span className="info-label">Location:</span>{" "}
+              <span className="info-label">Location:</span>
               <span className="info-value">{loc}</span>
             </div>
             <div className="info-item">
-              <span className="info-label">Language:</span>{" "}
+              <span className="info-label">Language:</span>
               <span className="info-value">{book.language}</span>
             </div>
             <div className="info-item">
-              <span className="info-label">Available for:</span>{" "}
+              <span className="info-label">Available for:</span>
               <span className="info-value">{book.availability_time} days</span>
             </div>
           </div>
@@ -71,16 +71,22 @@ const BookCard = ({ book }) => {
             </small>
           </div>
 
-          <button
-            className="btn btn-primary btn-sm"
-            onClick={() => setOpenRequest(true)}
-          >
-            Request Book
-          </button>
+          <div className="btn-group">
+            <button
+              className={`btn btn-sm ${
+                book.available ? "btn-primary" : "btn-secondary"
+              }`}
+              onClick={() => book.available && setOpenRequest(true)}
+              disabled={!book.available}
+            >
+              {book.available ? "Request" : "Not Available"}
+            </button>
+            <button className="btn btn-sm btn-outline-secondary">Review</button>
+          </div>
         </div>
       </div>
 
-      {openRequest && (
+      {openRequest && book.available && (
         <>
           <div className="modal-backdrop fade show" />
           <div
@@ -114,7 +120,7 @@ const BookCard = ({ book }) => {
                   )}
                   {!book.email && !book.phone && (
                     <p className="text-muted">
-                      This user hasn’t shared contact details.
+                      This user hasn't shared contact details.
                     </p>
                   )}
                 </div>

@@ -15,3 +15,36 @@
   background-attachment: fixed;
   overflow-y: auto;
 }
+.mybooks-container {
+  padding: 2rem;
+  min-height: calc(100vh - 56px);
+}
+
+.mybooks-content {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 1400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .mybooks-container {
+    padding: 1rem;
+  }
+
+  .mybooks-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .mybooks-container {
+    padding: 0.5rem;
+  }
+
+  .mybooks-content {
+    padding: 1rem;
+  }
+}
