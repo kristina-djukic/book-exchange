@@ -60,6 +60,31 @@ const searchBooksQuery = `
   WHERE (b.title LIKE ? OR b.author LIKE ?)
 `;
 
+const getBookReviewsQuery = `
+  SELECT 
+    r.*,
+    u.username,
+    u.picture as userPicture
+  FROM reviews r
+  JOIN user u ON r.user_id = u.id
+  WHERE r.book_id = ?
+  ORDER BY r.date_posted DESC
+`;
+
+const addReviewQuery = `
+  INSERT INTO reviews (book_id, user_id, rating, comment)
+  VALUES (?, ?, ?, ?)
+  ON DUPLICATE KEY UPDATE
+    rating = VALUES(rating),
+    comment = VALUES(comment),
+    date_posted = CURRENT_TIMESTAMP
+`;
+
+const deleteReviewQuery = `
+  DELETE FROM reviews 
+  WHERE book_id = ? AND user_id = ?
+`;
+
 const createBook = (
   title,
   author,
@@ -151,6 +176,37 @@ const searchBooks = (searchTerm) => {
   });
 };
 
+const getBookReviews = (bookId) => {
+  return new Promise((resolve, reject) => {
+    db.query(getBookReviewsQuery, [bookId], (err, results) => {
+      if (err) return reject(err);
+      resolve(results);
+    });
+  });
+};
+
+const addOrUpdateReview = (bookId, userId, rating, comment) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      addReviewQuery,
+      [bookId, userId, rating, comment],
+      (err, result) => {
+        if (err) return reject(err);
+        resolve({ id: result.insertId, bookId, userId, rating, comment });
+      }
+    );
+  });
+};
+
+const deleteReview = (bookId, userId) => {
+  return new Promise((resolve, reject) => {
+    db.query(deleteReviewQuery, [bookId, userId], (err, result) => {
+      if (err) return reject(err);
+      resolve(result.affectedRows > 0);
+    });
+  });
+};
+
 module.exports = {
   createBook,
   getBooksByUserId,
@@ -159,4 +215,7 @@ module.exports = {
   deleteBook,
   getBooksByCity,
   searchBooks,
+  getBookReviews,
+  addOrUpdateReview,
+  deleteReview,
 };

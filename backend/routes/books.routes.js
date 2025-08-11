@@ -150,4 +150,67 @@ router.get("/search", async (req, res) => {
   }
 });
 
+router.get("/:id/reviews", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
+    const reviews = await bookService.getBookReviews(req.params.id);
+    res.json(reviews);
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to fetch reviews",
+      error: error.message,
+    });
+  }
+});
+
+router.post("/:id/reviews", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
+    const { rating, comment } = req.body;
+
+    if (!rating || rating < 1 || rating > 5) {
+      return res
+        .status(400)
+        .json({ message: "Rating must be between 1 and 5" });
+    }
+
+    const review = await bookService.addOrUpdateReview(
+      req.params.id,
+      userId,
+      rating,
+      comment || null
+    );
+
+    res.status(201).json({ message: "Review added successfully", review });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to add review",
+      error: error.message,
+    });
+  }
+});
+
+router.delete("/:id/reviews", async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
+    const success = await bookService.deleteReview(req.params.id, userId);
+    if (!success) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+
+    res.json({ message: "Review deleted successfully" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Failed to delete review",
+      error: error.message,
+    });
+  }
+});
+
 module.exports = router;

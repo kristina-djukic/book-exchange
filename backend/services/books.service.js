@@ -81,6 +81,18 @@ const searchBooks = async (searchTerm) => {
   return await repo.searchBooks(searchTerm);
 };
 
+const getBookReviews = async (bookId) => {
+  return await repo.getBookReviews(bookId);
+};
+
+const addOrUpdateReview = async (bookId, userId, rating, comment) => {
+  return await repo.addOrUpdateReview(bookId, userId, rating, comment);
+};
+
+const deleteReview = async (bookId, userId) => {
+  return await repo.deleteReview(bookId, userId);
+};
+
 module.exports = {
   createBook,
   getBooksByUserId,
@@ -89,4 +101,7 @@ module.exports = {
   deleteBook,
   getBooksByCity,
   searchBooks,
+  getBookReviews,
+  addOrUpdateReview,
+  deleteReview,
 };
