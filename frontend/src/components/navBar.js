@@ -25,6 +25,7 @@ const NavBar = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
     }
   };
 
@@ -71,7 +72,7 @@ const NavBar = () => {
               >
                 Log out
               </button>
-            ) : (
+            ) : location.pathname === "/mybooks" ? null : (
               <form className="d-flex" onSubmit={handleSearch}>
                 <input
                   className="form-control me-2"
