@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import defaultBookImage from "../assets/nobookimage.png";
 import defaultAvatar from "../assets/noimage.png";
 import "./bookCard.css";
+import ReviewModal from "./reviewModal";
+import useProfile from "../hooks/useProfile";
 
 const BookCard = ({ book }) => {
   const [open, setOpen] = useState(false);
   const [openRequest, setOpenRequest] = useState(false);
+  const [openReview, setOpenReview] = useState(false);
+
+  const { profile } = useProfile();
+  const currentUserId = profile?.id;
 
   const loc =
     [book.address, book.city, book.postcode].filter(Boolean).join(", ") || "—";
@@ -81,7 +87,12 @@ const BookCard = ({ book }) => {
             >
               {book.available ? "Request" : "Not Available"}
             </button>
-            <button className="btn btn-sm btn-outline-secondary">Review</button>
+            <button
+              className="btn btn-sm btn-outline-secondary"
+              onClick={() => setOpenReview(true)}
+            >
+              Review
+            </button>
           </div>
         </div>
       </div>
@@ -136,6 +147,15 @@ const BookCard = ({ book }) => {
             </div>
           </div>
         </>
+      )}
+
+      {openReview && (
+        <ReviewModal
+          book={book}
+          isOpen={openReview}
+          onClose={() => setOpenReview(false)}
+          currentUserId={currentUserId}
+        />
       )}
     </>
   );

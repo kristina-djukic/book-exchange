@@ -35,6 +35,10 @@ const useProfile = () => {
     }
   };
 
+  const getCurrentUserId = () => {
+    return sessionStorage.getItem("userId") || localStorage.getItem("userId");
+  };
+
   useEffect(() => {
     fetchProfile();
   }, []);
@@ -44,6 +48,7 @@ const useProfile = () => {
     error,
     fetchProfile,
     updateProfile,
+    getCurrentUserId,
   };
 };
 
